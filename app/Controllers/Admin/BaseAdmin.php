@@ -20,10 +20,6 @@ class BaseAdmin extends BaseController
     // Data shared across every admin view
     protected function sharedData(array $extra = []): array
     {
-        // Later you'll pull $openTickets from the DB
-        // For now it's hardcoded to 0
-        return array_merge([
-            'openTickets' => 0,
-        ], $extra);
+        return $extra;
     }
 }

@@ -96,7 +96,7 @@ $routes->group('admin', ['filter' => 'adminauth'], function ($routes) {
 
     // Customers
     $routes->get('customers',                   'Admin\Customers::index');
-    $routes->get('customers/(:num)',            'Admin\Customers::show/$1');
+    $routes->get('customers/(:segment)',        'Admin\Customers::show/$1');
     
     // Invoices
     $routes->get('invoices',                        'Admin\Invoices::index');
