@@ -105,11 +105,11 @@
     }
     .btn-submit:hover { background: #e8f0fe; }
     .alert-error {
-      background: rgba(220,53,69,.25); border: 1px solid rgba(220,53,69,.7);
-      color: #ffb3bb; border-radius: 8px; padding: 10px 14px;
+      background: #dc2626; border: none;
+      color: #fff; border-radius: 8px; padding: 10px 14px;
       font-size: 13px; margin-bottom: 16px;
     }
-    .alert-error strong { color: #ff6b7a; }
+    .alert-error strong { color: #fff; }
     .alert-error ul { margin: 6px 0 0 16px; padding: 0; }
     .login-link { text-align: center; font-size: 13px; color: rgba(255,255,255,.7); margin-top: 20px; }
     .login-link a { color: #fff; font-weight: 600; text-decoration: none; }

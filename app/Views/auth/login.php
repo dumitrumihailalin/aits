@@ -93,14 +93,14 @@
     }
     .btn-submit:hover { background: #e8f0fe; }
     .alert-error {
-      background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
+      background: #dc2626; border: none;
       color: #fff; border-radius: 8px; padding: 10px 14px;
       font-size: 13px; margin-bottom: 16px;
       display: flex; align-items: flex-start; gap: 8px;
     }
     .alert-success {
-      background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
-      color: #fff; border-radius: 8px; padding: 10px 14px;
+      background: #1877f2; border: 1px solid rgba(255,255,255,.3);
+      color: #000; border-radius: 8px; padding: 10px 14px;
       font-size: 13px; margin-bottom: 16px;
       display: flex; align-items: center; gap: 8px;
     }
@@ -131,7 +131,7 @@
 </head>
 <body>
 <div class="auth-card">
-
+  <a href="<?= base_url() ?>" style="text-decoration:none">
   <div class="brand-row">
     <div class="brand-icon"><i class="bi bi-cpu-fill"></i></div>
     <div>
@@ -139,6 +139,7 @@
       <div class="brand-sub">Alin IT Services</div>
     </div>
   </div>
+  </a>
 
   <h1>Welcome back</h1>
   <p class="sub">Sign in to your company account.</p>
@@ -170,6 +171,9 @@
 
   <form action="<?= base_url('login') ?>" method="POST">
     <?= csrf_field() ?>
+    <?php if (!empty($redirect)): ?>
+      <input type="hidden" name="redirect" value="<?= esc($redirect) ?>">
+    <?php endif; ?>
 
     <div class="field">
       <label>Email Address</label>

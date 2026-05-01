@@ -84,15 +84,15 @@
     }
     .btn-submit:hover { background: #e8f0fe; }
     .alert-error {
-      background: rgba(220,53,69,.25); border: 1px solid rgba(220,53,69,.7);
-      color: #ffb3bb; border-radius: 8px; padding: 10px 14px;
+      background: #dc2626; border: none;
+      color: #fff; border-radius: 8px; padding: 10px 14px;
       font-size: 13px; margin-bottom: 16px;
       display: flex; align-items: center; gap: 8px;
     }
-    .alert-error strong { color: #ff6b7a; }
+    .alert-error strong { color: #fff; }
     .alert-success {
-      background: rgba(25,135,84,.25); border: 1px solid rgba(25,135,84,.6);
-      color: #a3f0c8; border-radius: 8px; padding: 10px 14px;
+      background: #1877f2; border: 1px solid rgba(255,255,255,.3);
+      color: #000; border-radius: 8px; padding: 10px 14px;
       font-size: 13px; margin-bottom: 16px;
       display: flex; align-items: center; gap: 8px;
     }

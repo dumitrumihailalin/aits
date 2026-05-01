@@ -89,14 +89,14 @@
     }
     .back-link:hover { color: var(--text-primary); }
     .alert-error {
-      background: rgba(218,54,51,.15); border: 1px solid rgba(218,54,51,.2);
-      color: #f85149; border-radius: 8px; padding: 10px 14px;
+      background: #dc2626; border: none;
+      color: #fff; border-radius: 8px; padding: 10px 14px;
       font-size: 13px; margin-bottom: 20px;
       display: flex; align-items: center; gap: 8px;
     }
     .alert-success {
-      background: rgba(46,160,67,.15); border: 1px solid rgba(46,160,67,.2);
-      color: #3fb950; border-radius: 8px; padding: 10px 14px;
+      background: #1877f2; border: 1px solid rgba(255,255,255,.3);
+      color: #000; border-radius: 8px; padding: 10px 14px;
       font-size: 13px; margin-bottom: 20px;
       display: flex; align-items: center; gap: 8px;
     }

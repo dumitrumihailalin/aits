@@ -27,17 +27,17 @@
     }
 
     /* ── Navbar ─────────────────────────────────────── */
-    .navbar {
+    .site-nav {
       background: var(--white);
       border-bottom: 1px solid var(--border);
       padding: 0 32px;
       height: 64px;
       display: flex; align-items: center; justify-content: space-between;
-      position: sticky; top: 0; z-index: 100;
+      position: sticky; top: 0; z-index: 200;
     }
-    .navbar-brand {
+    .nav-brand {
       display: flex; align-items: center; gap: 10px;
-      text-decoration: none;
+      text-decoration: none; flex-shrink: 0;
     }
     .brand-icon {
       width: 36px; height: 36px;
@@ -48,15 +48,17 @@
     }
     .brand-name { font-size: 18px; font-weight: 700; color: var(--text); }
     .brand-sub  { font-size: 10px; color: var(--muted); letter-spacing: .8px; text-transform: uppercase; }
-    .nav-links { display: flex; align-items: center; gap: 8px; }
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-auth   { display: flex; align-items: center; gap: 8px; margin-left: 8px; }
     .nav-link-item {
-      padding: 8px 16px; border-radius: 8px;
+      padding: 8px 14px; border-radius: 8px;
       font-size: 14px; font-weight: 500; color: var(--muted);
       text-decoration: none; transition: all .2s;
     }
     .nav-link-item:hover { background: var(--body-bg); color: var(--text); }
+    .nav-link-item.nav-active { color: var(--brand); font-weight: 600; }
     .btn-nav-login {
-      padding: 8px 20px; border-radius: 8px;
+      padding: 8px 18px; border-radius: 8px;
       font-size: 14px; font-weight: 600;
       border: 1px solid var(--border); color: var(--text);
       text-decoration: none; transition: all .2s;
@@ -64,12 +66,18 @@
     }
     .btn-nav-login:hover { border-color: var(--brand); color: var(--brand); }
     .btn-nav-register {
-      padding: 8px 20px; border-radius: 8px;
+      padding: 8px 18px; border-radius: 8px;
       font-size: 14px; font-weight: 600;
       background: var(--brand); color: #fff;
       text-decoration: none; transition: background .2s;
     }
     .btn-nav-register:hover { background: var(--brand-dark); color: #fff; }
+    /* ── Hamburger ── */
+    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; cursor: pointer; padding: 6px; border: none; background: none; border-radius: 6px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: transform .3s, opacity .3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
     /* ── Hero ───────────────────────────────────────── */
     .hero {
@@ -253,48 +261,33 @@
     .cta-section p  { font-size: 15px; color: rgba(255,255,255,.8); margin-bottom: 28px; }
 
     /* ── Footer ─────────────────────────────────────── */
-    .footer {
+    .site-footer {
       background: var(--white);
       border-top: 1px solid var(--border);
       padding: 24px 32px;
       text-align: center;
     }
-    .footer p { font-size: 13px; color: var(--muted); margin: 0; }
-    .footer a  { color: var(--brand); text-decoration: none; }
+    .site-footer p { font-size: 13px; color: var(--muted); margin: 0; }
+    .site-footer a  { color: var(--brand); text-decoration: none; }
 
-    @media (max-width: 600px) {
-      .navbar { padding: 0 16px; }
-      .nav-links .nav-link-item { display: none; }
+    @media (max-width: 768px) {
+      .navbar { padding: 0 16px; height: 58px; }
+      .hamburger { display: flex; }
+      .nav-links { display: none; flex-direction: column; align-items: stretch; position: absolute; top: 58px; left: 0; right: 0; background: var(--white); border-bottom: 1px solid var(--border); padding: 12px 16px 16px; gap: 2px; box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+      .nav-links.open { display: flex; }
+      .nav-auth { flex-direction: column; align-items: stretch; margin-left: 0; margin-top: 8px; padding-top: 10px; border-top: 1px solid var(--border); gap: 8px; }
+      .nav-link-item { padding: 10px 14px; }
+      .btn-nav-login, .btn-nav-register { text-align: center; padding: 11px 18px; }
       .hero { padding: 48px 16px; }
       .section { padding: 48px 16px; }
       .stats-inner { gap: 24px; }
+      .stats-bar { padding: 20px 16px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ═══ NAVBAR ════════════════════════════════════════ -->
-<nav class="navbar">
-  <a href="<?= base_url('/') ?>" class="navbar-brand">
-    <div class="brand-icon"><i class="bi bi-cpu-fill"></i></div>
-    <div>
-      <div class="brand-name">AITS</div>
-      <div class="brand-sub">Alin IT Services</div>
-    </div>
-  </a>
-  <div class="nav-links">
-    <a href="#products" class="nav-link-item">Products</a>
-    <a href="#why-us" class="nav-link-item">Why Us</a>
-    <a href="#contact" class="nav-link-item">Contact</a>
-    <?php if (session()->get('isLoggedIn')): ?>
-      <a href="<?= base_url('dashboard') ?>" class="btn-nav-login">Dashboard</a>
-      <a href="<?= base_url('logout') ?>" class="btn-nav-register">Logout</a>
-    <?php else: ?>
-      <a href="<?= base_url('login') ?>" class="btn-nav-login">Sign In</a>
-      <a href="<?= base_url('register') ?>" class="btn-nav-register">Get Started</a>
-    <?php endif; ?>
-  </div>
-</nav>
+<?= view('partials/public_nav', ['activeNav' => 'home']) ?>
 
 <!-- ═══ HERO ══════════════════════════════════════════ -->
 <section class="hero">
@@ -305,7 +298,7 @@
     <a href="<?= base_url('register') ?>" class="btn-hero-primary">
       <i class="bi bi-building-check"></i> Start Free Trial
     </a>
-    <a href="#products" class="btn-hero-secondary">
+    <a href="<?= base_url('products') ?>" class="btn-hero-secondary">
       <i class="bi bi-grid"></i> View Products
     </a>
   </div>
@@ -412,19 +405,20 @@
     <a href="<?= base_url('register') ?>" class="btn-hero-primary">
       <i class="bi bi-building-check"></i> Create Free Account
     </a>
-    <a href="mailto:customers@alinitservices.com" class="btn-hero-secondary">
+    <a href="<?= base_url('contact') ?>" class="btn-hero-secondary">
       <i class="bi bi-envelope"></i> Contact Us
     </a>
   </div>
 </section>
 
 <!-- ═══ FOOTER ════════════════════════════════════════ -->
-<footer class="footer">
+<footer class="site-footer">
   <p>
     © <?= date('Y') ?> AITS — Alin IT Services &nbsp;·&nbsp;
-    <a href="<?= base_url('login') ?>">Sign In</a> &nbsp;·&nbsp;
-    <a href="<?= base_url('register') ?>">Register</a> &nbsp;·&nbsp;
-    <a href="mailto:customers@alinitservices.com">Contact</a>
+    <a href="<?= base_url('products') ?>">Products</a> &nbsp;·&nbsp;
+    <a href="<?= base_url('why-us') ?>">Why Us</a> &nbsp;·&nbsp;
+    <a href="<?= base_url('contact') ?>">Contact</a> &nbsp;·&nbsp;
+    <a href="<?= base_url('login') ?>">Sign In</a>
   </p>
 </footer>
 

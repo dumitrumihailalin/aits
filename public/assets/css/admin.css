@@ -448,3 +448,8 @@ a { text-decoration: none; color: inherit; }
   .sidebar-toggle { display: none; }
   .topbar-search { width: 160px; }
 }
+/* ── Flash / Alert overrides ──────────────────────────────── */
+.alert-success { background: #1877f2 !important; border: none !important; color: #000 !important; }
+.alert-success .btn-close { filter: none; }
+.alert-danger  { background: #dc2626 !important; border: none !important; color: #fff !important; }
+.alert-danger  .btn-close { filter: invert(1); }

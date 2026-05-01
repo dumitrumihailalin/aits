@@ -109,9 +109,9 @@
     }
     .btn-login:hover { background: #3d7de8; }
     .alert-error {
-      background: rgba(218,54,51,.15);
-      border: 1px solid rgba(218,54,51,.2);
-      color: #f85149;
+      background: #dc2626;
+      border: none;
+      color: #fff;
       border-radius: 8px;
       padding: 10px 14px;
       font-size: 13px;

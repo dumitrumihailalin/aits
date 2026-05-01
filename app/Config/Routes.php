@@ -4,10 +4,12 @@ use CodeIgniter\Router\RouteCollection;
 
 // ── Public ──────────────────────────────────────────────
 $routes->get('/', 'Home::index');
-$routes->get('about',                       'About::index');
+$routes->get('products',                    'Products::index');
+$routes->get('products/(:segment)',         'Products::show/$1');
+$routes->get('why-us',                      'WhyUs::index');
+$routes->get('about',                       'WhyUs::index');
 $routes->get('contact',                     'Contact::index');
 $routes->post('contact',                    'Contact::send');
-$routes->get('products/(:segment)',         'Products::show/$1');
 
 // ── Customer Auth ───────────────────────────────────────
 $routes->get('register',                    'Auth::register');
@@ -121,6 +123,10 @@ $routes->group('admin', ['filter' => 'adminauth'], function ($routes) {
     $routes->post('support/reply/(:num)',       'Admin\Support::reply/$1');
     $routes->post('support/status/(:num)',      'Admin\Support::updateStatus/$1');
     $routes->post('support/close/(:num)',       'Admin\Support::close/$1');
+
+    // Maintenance
+    $routes->get('maintenance',                 'Admin\Maintenance::index');
+    $routes->post('maintenance/run',            'Admin\Maintenance::run');
 
     // Settings
     $routes->get('settings',                    'Admin\Settings::index');

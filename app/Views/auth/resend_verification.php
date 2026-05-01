@@ -25,7 +25,7 @@
     input::placeholder { color:var(--text-muted); }
     .btn-submit { width:100%; background:var(--brand-accent); color:#fff; border:none; border-radius:8px; padding:11px; font-size:14px; font-weight:600; font-family:'DM Sans',sans-serif; cursor:pointer; margin-top:8px; transition:background .2s; display:flex; align-items:center; justify-content:center; gap:8px; }
     .btn-submit:hover { background:#3d7de8; }
-    .alert-success { background:rgba(46,160,67,.15); border:1px solid rgba(46,160,67,.2); color:#3fb950; border-radius:8px; padding:10px 14px; font-size:13px; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+    .alert-success { background:#1877f2; border:1px solid rgba(255,255,255,.3); color:#000; border-radius:8px; padding:10px 14px; font-size:13px; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
     .back-link { display:flex; align-items:center; gap:6px; justify-content:center; margin-top:20px; font-size:13px; color:var(--text-muted); text-decoration:none; transition:color .2s; }
     .back-link:hover { color:var(--text-primary); }
   </style>

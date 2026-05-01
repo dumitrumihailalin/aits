@@ -8,6 +8,17 @@ use App\Models\ProductModel;
 
 class Products extends BaseController
 {
+    public function index()
+    {
+        $productModel = new ProductModel();
+        return view('products/index', [
+            'title'     => 'Our IT Services & Plans — Alin IT Services',
+            'metaDesc'  => 'Explore AITS cloud hosting, CRM, ERP and IT support plans. Transparent pricing, 24/7 support, 30-day money-back guarantee.',
+            'activeNav' => 'products',
+            'products'  => $productModel->getActive(),
+        ]);
+    }
+
     public function show(string $slugWithId)
     {
         $productModel = new ProductModel();

@@ -144,10 +144,13 @@ class Auth extends BaseController
         if (session()->get('isLoggedIn')) {
             return redirect()->to(base_url('dashboard'));
         }
-        return view('auth/login', ['title' => 'Login']);
+        return view('auth/login', [
+            'title'    => 'Login',
+            'redirect' => $this->request->getGet('redirect') ?? '',
+        ]);
     }
 
-   public function loginPost()
+    public function loginPost()
     {
         if (! $this->validate([
             'email'    => 'required|valid_email',
@@ -180,6 +183,11 @@ class Auth extends BaseController
             'email'      => $user['email'],
         ]);
 
+        $redirectTo = $this->request->getPost('redirect');
+        if ($redirectTo && str_starts_with($redirectTo, '/')) {
+            return redirect()->to(base_url(ltrim($redirectTo, '/')));
+        }
+
         return redirect()->to(base_url('dashboard'));
     }
 
@@ -203,7 +211,10 @@ class Auth extends BaseController
         }
 
         $email = $this->request->getPost('email');
-        $user  = $this->userModel->where('email', $email)->where('role', 'customer')->first();
+        $user  = $this->userModel->findByEmailWithRole($email);
+        if ($user && ($user['role'] ?? '') !== 'customer') {
+            $user = null;
+        }
 
         if ($user) {
             $token = bin2hex(random_bytes(32));

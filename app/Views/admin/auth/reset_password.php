@@ -35,7 +35,7 @@
     input::placeholder { color: rgba(255,255,255,.45); }
     .btn-submit { width: 100%; background: #fff; color: #1877f2; border: none; border-radius: 8px; padding: 12px; font-size: 14px; font-weight: 700; font-family: 'DM Sans', sans-serif; cursor: pointer; margin-top: 8px; transition: background .2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .btn-submit:hover { background: #e8f0fe; }
-    .alert-error { background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3); color: #fff; border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .alert-error { background: #dc2626; border: none; color: #fff; border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
     .strength-bar { height: 3px; border-radius: 3px; margin-top: 6px; background: rgba(255,255,255,.15); overflow: hidden; }
     .strength-fill { height: 100%; width: 0; border-radius: 3px; transition: width .3s, background .3s; }
     .strength-label { font-size: 11px; color: rgba(255,255,255,.6); margin-top: 4px; min-height: 16px; }
