@@ -68,8 +68,21 @@
     .page-wrap { max-width: 1080px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 340px; gap: 32px; align-items: start; }
 
     /* ── Features ── */
-    .features-section h2 { font-size: 20px; font-weight: 700; margin-bottom: 24px; }
-    .feature-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 14px; display: flex; align-items: flex-start; gap: 14px; }
+    .features-section h2 { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
+    .features-scroll {
+      max-height: calc(100vh - 130px);
+      overflow-y: auto;
+      padding-right: 4px;
+      scrollbar-width: thin;
+      scrollbar-color: #1877f2 transparent;
+    }
+    .features-scroll::-webkit-scrollbar { width: 6px; }
+    .features-scroll::-webkit-scrollbar-track { background: transparent; }
+    .features-scroll::-webkit-scrollbar-thumb { background: #1877f2; border-radius: 6px; }
+    .features-scroll::-webkit-scrollbar-thumb:hover { background: #1259c3; }
+    .feature-link { text-decoration: none; color: inherit; display: block; }
+    .feature-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 14px; display: flex; align-items: flex-start; gap: 14px; transition: border-color .2s, box-shadow .2s; }
+    .feature-link:hover .feature-card { border-color: var(--brand); box-shadow: 0 2px 12px rgba(24,119,242,.12); }
     .feature-icon { width: 42px; height: 42px; min-width: 42px; border-radius: 10px; background: #e8f0fe; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--brand); }
     .feature-name { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
     .feature-desc { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 8px; }
@@ -256,28 +269,33 @@
         No features listed yet.
       </div>
     <?php else: ?>
-      <?php foreach ($product['features'] as $feature): ?>
-      <div class="feature-card">
-        <div class="feature-icon"><i class="bi bi-check2-circle"></i></div>
-        <div style="flex:1;min-width:0;">
-          <div class="feature-name"><?= esc($feature['name']) ?></div>
-          <?php if ($feature['description']): ?>
-            <div class="feature-desc"><?= esc($feature['description']) ?></div>
-          <?php endif; ?>
-          <div class="feature-meta">
-            <?php if ($feature['price'] > 0): ?>
-              <span class="feature-badge price">$<?= number_format($feature['price'], 2) ?></span>
-            <?php endif; ?>
-            <?php if ($feature['module_type']): ?>
-              <span class="feature-badge"><?= esc(ucfirst($feature['module_type'])) ?></span>
-            <?php endif; ?>
-            <?php if ($feature['limit'] > 0): ?>
-              <span class="feature-badge">Up to <?= esc($feature['limit']) ?> users</span>
-            <?php endif; ?>
+      <div class="features-scroll">
+        <?php foreach ($product['features'] as $feature): ?>
+        <a href="<?= base_url('products/' . esc($product['slug']) . '/features/' . esc($feature['id'])) ?>" class="feature-link">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="bi bi-check2-circle"></i></div>
+            <div style="flex:1;min-width:0;">
+              <div class="feature-name"><?= esc($feature['name']) ?></div>
+              <?php if ($feature['description']): ?>
+                <div class="feature-desc"><?= esc($feature['description']) ?></div>
+              <?php endif; ?>
+              <div class="feature-meta">
+                <?php if ($feature['price'] > 0): ?>
+                  <span class="feature-badge price">$<?= number_format($feature['price'], 2) ?></span>
+                <?php endif; ?>
+                <?php if ($feature['module_type']): ?>
+                  <span class="feature-badge"><?= esc(ucfirst($feature['module_type'])) ?></span>
+                <?php endif; ?>
+                <?php if ($feature['limit'] > 0): ?>
+                  <span class="feature-badge">Up to <?= esc($feature['limit']) ?> users</span>
+                <?php endif; ?>
+              </div>
+            </div>
+            <i class="bi bi-chevron-right" style="color:var(--muted);font-size:14px;flex-shrink:0;margin-top:2px;"></i>
           </div>
-        </div>
+        </a>
+        <?php endforeach; ?>
       </div>
-      <?php endforeach; ?>
     <?php endif; ?>
   </section>
 

@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\CartModel;
 use App\Models\InvoiceModel;
 use App\Models\ProductModel;
+use App\Models\ProductFeatureModel;
 
 class Products extends BaseController
 {
@@ -47,6 +48,32 @@ class Products extends BaseController
             'product'          => $product,
             'inCart'           => $inCart,
             'alreadyPurchased' => $alreadyPurchased,
+        ]);
+    }
+
+    public function feature(string $productSlug, string $featureId)
+    {
+        $productModel = new ProductModel();
+        $product      = $productModel->findBySlug($productSlug);
+
+        if (! $product) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $featureModel = new ProductFeatureModel();
+        $feature      = $featureModel->where('id', $featureId)
+                                     ->where('product_id', $product['id'])
+                                     ->where('is_active', 1)
+                                     ->first();
+
+        if (! $feature) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        return view('products/feature', [
+            'title'   => esc($feature['name']) . ' — ' . esc($product['name']) . ' — AITS',
+            'product' => $product,
+            'feature' => $feature,
         ]);
     }
 }

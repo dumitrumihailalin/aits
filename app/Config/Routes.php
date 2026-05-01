@@ -4,8 +4,9 @@ use CodeIgniter\Router\RouteCollection;
 
 // ── Public ──────────────────────────────────────────────
 $routes->get('/', 'Home::index');
-$routes->get('products',                    'Products::index');
-$routes->get('products/(:segment)',         'Products::show/$1');
+$routes->get('products',                                          'Products::index');
+$routes->get('products/(:segment)/features/(:segment)',           'Products::feature/$1/$2');
+$routes->get('products/(:segment)',                               'Products::show/$1');
 $routes->get('why-us',                      'WhyUs::index');
 $routes->get('about',                       'WhyUs::index');
 $routes->get('contact',                     'Contact::index');
