@@ -87,9 +87,12 @@ $routes->group('admin', ['filter' => 'adminauth'], function ($routes) {
     $routes->post('products/delete/(:segment)',     'Admin\Products::delete/$1');
 
     // Features
-    $routes->get('features',                    'Admin\Features::index');
-    $routes->post('features/store',             'Admin\Features::store');
-    $routes->post('features/delete/(:num)',     'Admin\Features::delete/$1');
+    $routes->get('features',                        'Admin\Features::index');
+    $routes->get('features/create',                 'Admin\Features::create');
+    $routes->post('features/store',                 'Admin\Features::store');
+    $routes->get('features/edit/(:segment)',         'Admin\Features::edit/$1');
+    $routes->post('features/update/(:segment)',      'Admin\Features::update/$1');
+    $routes->post('features/delete/(:segment)',      'Admin\Features::delete/$1');
 
     // Customers
     $routes->get('customers',                   'Admin\Customers::index');

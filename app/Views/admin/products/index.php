@@ -7,6 +7,12 @@
 <style>
   .badge-active   { background:#d1fae5;color:#065f46; }
   .badge-inactive { background:#fee2e2;color:#991b1b; }
+  .status-tabs { display:flex;gap:4px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:6px;margin-bottom:16px; }
+  .status-tab { padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;color:var(--text-muted);text-decoration:none;display:flex;align-items:center;gap:6px;transition:all .15s; }
+  .status-tab:hover { background:rgba(255,255,255,.06);color:var(--text-primary); }
+  .status-tab.active { background:var(--brand-accent);color:#fff; }
+  .status-tab .count { background:rgba(0,0,0,.15);border-radius:20px;padding:1px 8px;font-size:11px; }
+  .status-tab.active .count { background:rgba(255,255,255,.25); }
 </style>
 
 <div class="page-header">
@@ -34,6 +40,42 @@
     <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" style="filter:brightness(0) invert(1);"></button>
   </div>
 <?php endif; ?>
+
+<?php
+  $qs = $search ? '&search=' . urlencode($search) : '';
+  $fq = $featured === 'featured' ? '&featured=featured' : '';
+?>
+<div class="status-tabs">
+  <a href="<?= base_url('admin/products?' . ltrim($qs . $fq, '&')) ?>"            class="status-tab <?= $status === 'all'      ? 'active' : '' ?>">All <span class="count"><?= $counts['all'] ?></span></a>
+  <a href="<?= base_url('admin/products?status=active' . $qs . $fq) ?>"           class="status-tab <?= $status === 'active'   ? 'active' : '' ?>">Active <span class="count"><?= $counts['active'] ?></span></a>
+  <a href="<?= base_url('admin/products?status=inactive' . $qs . $fq) ?>"         class="status-tab <?= $status === 'inactive' ? 'active' : '' ?>">Inactive <span class="count"><?= $counts['inactive'] ?></span></a>
+  <a href="<?= base_url('admin/products?featured=featured' . ($status !== 'all' ? '&status=' . esc($status) : '') . $qs) ?>" class="status-tab <?= $featured === 'featured' ? 'active' : '' ?>">⭐ Featured <span class="count"><?= $counts['featured'] ?></span></a>
+</div>
+
+<div class="card border-0 shadow-sm rounded-3 mb-4">
+  <div class="card-body p-3">
+    <form method="GET" action="<?= base_url('admin/products') ?>">
+      <?php if ($status !== 'all'): ?>
+        <input type="hidden" name="status" value="<?= esc($status) ?>">
+      <?php endif; ?>
+      <?php if ($featured === 'featured'): ?>
+        <input type="hidden" name="featured" value="featured">
+      <?php endif; ?>
+      <div class="input-group">
+        <span class="input-group-text bg-white border-end-0">
+          <i class="bi bi-search text-muted"></i>
+        </span>
+        <input type="text" name="search" class="form-control border-start-0"
+               placeholder="Search by name or slug..."
+               value="<?= esc($search) ?>">
+        <?php if ($search || $status !== 'all' || $featured !== 'all'): ?>
+          <a href="<?= base_url('admin/products') ?>" class="btn btn-outline-secondary">Clear</a>
+        <?php endif; ?>
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <div class="card border-0 shadow-sm rounded-3">
   <div class="card-body p-0">
@@ -90,13 +132,11 @@
               <a href="<?= base_url('admin/products/edit/' . $product['id']) ?>" class="btn btn-sm btn-outline-primary">
                 <i class="bi bi-pencil"></i>
               </a>
-              <form action="<?= base_url('admin/products/delete/' . $product['id']) ?>" method="POST"
-                    onsubmit="return confirm('Delete this product?')">
-                <?= csrf_field() ?>
-                <button type="submit" class="btn btn-sm btn-outline-danger">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </form>
+              <button type="button" class="btn btn-sm btn-outline-danger btn-delete"
+                      data-action="<?= base_url('admin/products/delete/' . $product['id']) ?>"
+                      data-label="<?= esc($product['name']) ?>">
+                <i class="bi bi-trash"></i>
+              </button>
             </div>
           </td>
         </tr>
@@ -106,5 +146,17 @@
     <?php endif; ?>
   </div>
 </div>
+
+<?= $this->include('admin/partials/delete_modal') ?>
+
+<script>
+  document.querySelectorAll('.btn-delete').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById('deleteForm').action = btn.dataset.action;
+      document.getElementById('deleteLabel').textContent = btn.dataset.label;
+      new bootstrap.Modal(document.getElementById('deleteModal')).show();
+    });
+  });
+</script>
 
 <?= $this->endSection() ?>

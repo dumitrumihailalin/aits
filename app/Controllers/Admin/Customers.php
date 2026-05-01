@@ -26,7 +26,8 @@ class Customers extends BaseController
     // ── List all customers ────────────────────────────────
     public function index()
     {
-        $search = $this->request->getGet('search') ?? '';
+        $search   = $this->request->getGet('search') ?? '';
+        $verified = $this->request->getGet('verified') ?? 'all';
 
         $builder = $this->db->table('users')
             ->select('users.*, roles.slug as role')
@@ -43,12 +44,26 @@ class Customers extends BaseController
                 ->groupEnd();
         }
 
+        if ($verified === 'verified') {
+            $builder->where('users.email_verified_at IS NOT NULL', null, false);
+        } elseif ($verified === 'pending') {
+            $builder->where('users.email_verified_at IS NULL', null, false);
+        }
+
         $customers = $builder->get()->getResultArray();
+
+        $counts = [
+            'all'      => $this->db->table('users')->join('role_user', 'role_user.user_id = users.id')->join('roles', 'roles.id = role_user.role_id')->where('roles.slug', 'customer')->countAllResults(),
+            'verified' => $this->db->table('users')->join('role_user', 'role_user.user_id = users.id')->join('roles', 'roles.id = role_user.role_id')->where('roles.slug', 'customer')->where('users.email_verified_at IS NOT NULL', null, false)->countAllResults(),
+            'pending'  => $this->db->table('users')->join('role_user', 'role_user.user_id = users.id')->join('roles', 'roles.id = role_user.role_id')->where('roles.slug', 'customer')->where('users.email_verified_at IS NULL', null, false)->countAllResults(),
+        ];
 
         return view('admin/customers/index', [
             'title'     => 'Customers',
             'customers' => $customers,
             'search'    => $search,
+            'verified'  => $verified,
+            'counts'    => $counts,
         ]);
     }
 

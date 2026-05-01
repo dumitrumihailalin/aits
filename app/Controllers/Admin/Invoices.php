@@ -27,6 +27,7 @@ class Invoices extends BaseController
     public function index()
     {
         $status = $this->request->getGet('status') ?? 'all';
+        $search = $this->request->getGet('search') ?? '';
 
         $builder = $this->db->table('invoices')
             ->select('invoices.*, users.name as user_name, users.email as user_email, users.company_name')
@@ -36,6 +37,15 @@ class Invoices extends BaseController
 
         if ($status !== 'all') {
             $builder->where('invoices.status', $status);
+        }
+
+        if ($search) {
+            $builder->groupStart()
+                ->like('invoices.invoice_number', $search)
+                ->orLike('users.name', $search)
+                ->orLike('users.email', $search)
+                ->orLike('users.company_name', $search)
+                ->groupEnd();
         }
 
         $invoices = $builder->get()->getResultArray();
@@ -50,6 +60,7 @@ class Invoices extends BaseController
             'title'    => 'Invoices',
             'invoices' => $invoices,
             'status'   => $status,
+            'search'   => $search,
             'counts'   => $counts,
         ]);
     }

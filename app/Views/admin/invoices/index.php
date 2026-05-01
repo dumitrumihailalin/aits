@@ -33,10 +33,35 @@
   </div>
 <?php endif; ?>
 
+<div class="card border-0 shadow-sm rounded-3 mb-4">
+  <div class="card-body p-3">
+    <form method="GET" action="<?= base_url('admin/invoices') ?>">
+      <?php if ($status !== 'all'): ?>
+        <input type="hidden" name="status" value="<?= esc($status) ?>">
+      <?php endif; ?>
+      <div class="input-group">
+        <span class="input-group-text bg-white border-end-0">
+          <i class="bi bi-search text-muted"></i>
+        </span>
+        <input type="text" name="search" class="form-control border-start-0"
+               placeholder="Search by invoice #, customer name or email..."
+               value="<?= esc($search) ?>">
+        <?php if ($search): ?>
+          <a href="<?= base_url('admin/invoices' . ($status !== 'all' ? '?status=' . esc($status) : '')) ?>" class="btn btn-outline-secondary">Clear</a>
+        <?php endif; ?>
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <div class="status-tabs">
-  <a href="<?= base_url('admin/invoices') ?>" class="status-tab <?= $status === 'all'    ? 'active' : '' ?>">All <span class="count"><?= $counts['all'] ?></span></a>
-  <a href="<?= base_url('admin/invoices?status=unpaid') ?>" class="status-tab <?= $status === 'unpaid' ? 'active' : '' ?>">🔴 Unpaid <span class="count"><?= $counts['unpaid'] ?></span></a>
-  <a href="<?= base_url('admin/invoices?status=paid') ?>"   class="status-tab <?= $status === 'paid'   ? 'active' : '' ?>">🟢 Paid <span class="count"><?= $counts['paid'] ?></span></a>
+  <?php
+    $qs = $search ? '&search=' . urlencode($search) : '';
+  ?>
+  <a href="<?= base_url('admin/invoices?' . ltrim($qs, '&')) ?>" class="status-tab <?= $status === 'all'    ? 'active' : '' ?>">All <span class="count"><?= $counts['all'] ?></span></a>
+  <a href="<?= base_url('admin/invoices?status=unpaid' . $qs) ?>" class="status-tab <?= $status === 'unpaid' ? 'active' : '' ?>">🔴 Unpaid <span class="count"><?= $counts['unpaid'] ?></span></a>
+  <a href="<?= base_url('admin/invoices?status=paid' . $qs) ?>"   class="status-tab <?= $status === 'paid'   ? 'active' : '' ?>">🟢 Paid <span class="count"><?= $counts['paid'] ?></span></a>
 </div>
 
 <div class="card border-0 shadow-sm rounded-3">

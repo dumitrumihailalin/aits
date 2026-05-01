@@ -20,9 +20,45 @@ class Products extends BaseController
     // ── List ─────────────────────────────────────────────
     public function index()
     {
+        $search   = $this->request->getGet('search') ?? '';
+        $status   = $this->request->getGet('status') ?? 'all';
+        $featured = $this->request->getGet('featured') ?? 'all';
+
+        $builder = $this->productModel->orderBy('sort_order', 'ASC');
+
+        if ($search) {
+            $builder->groupStart()
+                ->like('name', $search)
+                ->orLike('slug', $search)
+                ->groupEnd();
+        }
+
+        if ($status === 'active') {
+            $builder->where('is_active', 1);
+        } elseif ($status === 'inactive') {
+            $builder->where('is_active', 0);
+        }
+
+        if ($featured === 'featured') {
+            $builder->where('is_featured', 1);
+        }
+
+        $products = $builder->findAll();
+
+        $counts = [
+            'all'      => $this->productModel->countAllResults(false),
+            'active'   => $this->productModel->where('is_active', 1)->countAllResults(false),
+            'inactive' => $this->productModel->where('is_active', 0)->countAllResults(false),
+            'featured' => $this->productModel->where('is_featured', 1)->countAllResults(false),
+        ];
+
         return view('admin/products/index', [
             'title'    => 'Products',
-            'products' => $this->productModel->orderBy('sort_order', 'ASC')->findAll(),
+            'products' => $products,
+            'search'   => $search,
+            'status'   => $status,
+            'featured' => $featured,
+            'counts'   => $counts,
         ]);
     }
 

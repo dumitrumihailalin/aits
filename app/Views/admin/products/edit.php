@@ -137,11 +137,19 @@
       <div class="d-grid gap-2">
         <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i> Update Product</button>
         <a href="<?= base_url('admin/products') ?>" class="btn btn-outline-secondary">Cancel</a>
+        <hr class="my-1">
+        <button type="button" class="btn btn-outline-danger btn-delete"
+                data-action="<?= base_url('admin/products/delete/' . $product['id']) ?>"
+                data-label="<?= esc($product['name']) ?>">
+          <i class="bi bi-trash me-1"></i> Delete Product
+        </button>
       </div>
 
     </div>
   </div>
 </form>
+
+<?= $this->include('admin/partials/delete_modal') ?>
 
 <script>
   const iconInput   = document.getElementById('iconInput');
@@ -154,6 +162,14 @@
   colorInput.addEventListener('input', () => {
     iconPreview.style.background = colorInput.value;
     colorText.value = colorInput.value;
+  });
+
+  document.querySelectorAll('.btn-delete').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById('deleteForm').action = btn.dataset.action;
+      document.getElementById('deleteLabel').textContent = btn.dataset.label;
+      new bootstrap.Modal(document.getElementById('deleteModal')).show();
+    });
   });
 </script>
 

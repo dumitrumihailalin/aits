@@ -8,6 +8,12 @@
   .avatar { width:36px;height:36px;border-radius:50%;background:#1877f2;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0; }
   .badge-verified   { background:#d1fae5;color:#065f46; }
   .badge-unverified { background:#fee2e2;color:#991b1b; }
+  .status-tabs { display:flex;gap:4px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:6px;margin-bottom:16px; }
+  .status-tab { padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;color:var(--text-muted);text-decoration:none;display:flex;align-items:center;gap:6px;transition:all .15s; }
+  .status-tab:hover { background:rgba(255,255,255,.06);color:var(--text-primary); }
+  .status-tab.active { background:var(--brand-accent);color:#fff; }
+  .status-tab .count { background:rgba(0,0,0,.15);border-radius:20px;padding:1px 8px;font-size:11px; }
+  .status-tab.active .count { background:rgba(255,255,255,.25); }
 </style>
 
 <div class="page-header">
@@ -25,9 +31,18 @@
   </div>
 <?php endif; ?>
 
+<div class="status-tabs">
+  <a href="<?= base_url('admin/customers') ?>" class="status-tab <?= $verified === 'all'      ? 'active' : '' ?>">All <span class="count"><?= $counts['all'] ?></span></a>
+  <a href="<?= base_url('admin/customers?verified=verified') ?>" class="status-tab <?= $verified === 'verified' ? 'active' : '' ?>">✓ Verified <span class="count"><?= $counts['verified'] ?></span></a>
+  <a href="<?= base_url('admin/customers?verified=pending') ?>"  class="status-tab <?= $verified === 'pending'  ? 'active' : '' ?>">⏳ Pending <span class="count"><?= $counts['pending'] ?></span></a>
+</div>
+
 <div class="card border-0 shadow-sm rounded-3 mb-4">
   <div class="card-body p-3">
     <form method="GET" action="<?= base_url('admin/customers') ?>">
+      <?php if ($verified !== 'all'): ?>
+        <input type="hidden" name="verified" value="<?= esc($verified) ?>">
+      <?php endif; ?>
       <div class="input-group">
         <span class="input-group-text bg-white border-end-0">
           <i class="bi bi-search text-muted"></i>
@@ -35,7 +50,7 @@
         <input type="text" name="search" class="form-control border-start-0"
                placeholder="Search by name, email or company..."
                value="<?= esc($search) ?>">
-        <?php if ($search): ?>
+        <?php if ($search || $verified !== 'all'): ?>
           <a href="<?= base_url('admin/customers') ?>" class="btn btn-outline-secondary">Clear</a>
         <?php endif; ?>
         <button type="submit" class="btn btn-primary">Search</button>
