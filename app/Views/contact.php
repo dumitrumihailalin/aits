@@ -68,7 +68,8 @@
       color: var(--text); background: var(--white);
       outline: none; transition: border-color .2s;
     }
-    .field input:focus, .field textarea:focus { border-color: var(--brand); }
+    .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--brand); }
+    .field select option { color: var(--text); }
     .field textarea { resize: vertical; min-height: 130px; }
     .btn-submit { width: 100%; background: var(--brand); color: #fff; border: none; border-radius: 8px; padding: 13px; font-size: 15px; font-weight: 700; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background .2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .btn-submit:hover { background: var(--brand-dark); }
@@ -157,6 +158,18 @@
           <label class="field-label" for="email">Email Address</label>
           <input type="email" id="email" name="email" placeholder="john@company.com"
                  value="<?= old('email') ?>" required />
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="product_id">Interested in (optional)</label>
+          <select id="product_id" name="product_id">
+            <option value="">— Select a product —</option>
+            <?php foreach ($products as $p): ?>
+              <option value="<?= esc($p['id']) ?>" <?= old('product_id') === $p['id'] ? 'selected' : '' ?>>
+                <?= esc($p['name']) ?> — $<?= number_format((float)($p['price'] ?? $p['base_price'] ?? 0), 0) ?>/mo
+              </option>
+            <?php endforeach; ?>
+          </select>
         </div>
 
         <div class="field">
