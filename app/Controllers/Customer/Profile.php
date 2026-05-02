@@ -82,6 +82,17 @@ class Profile extends BaseController
             ->with('success', 'Profile updated successfully.');
     }
 
+    public function updateLanguage(): \CodeIgniter\HTTP\RedirectResponse
+    {
+        $locale    = $this->request->getPost('preferred_language');
+        $supported = config('App')->supportedLocales;
+        if (in_array($locale, $supported, true)) {
+            $this->userModel->update($this->userId, ['preferred_language' => $locale]);
+            session()->set('locale', $locale);
+        }
+        return redirect()->to(base_url('profile'))->with('success', lang('Common.language_saved'));
+    }
+
     // in Customer\Profile controller
     public function updateNotifications()
     {

@@ -225,6 +225,39 @@
                     </div>
                 </div>
 
+                <!-- Language Preference -->
+                <div class="card border-0 shadow-sm rounded-3 mb-3">
+                    <div class="card-body p-4">
+                        <h5 style="font-weight:700;color:#111827;margin-bottom:16px;"><?= lang('Common.preferred_language') ?></h5>
+                        <form action="<?= base_url('profile/language') ?>" method="POST">
+                            <?= csrf_field() ?>
+                            <?php
+                            $supportedLocales = [
+                                'en' => '🇬🇧 English',
+                                'tr' => '🇹🇷 Türkçe',
+                                'it' => '🇮🇹 Italiano',
+                                'es' => '🇪🇸 Español',
+                                'el' => '🇬🇷 Ελληνικά',
+                                'fr' => '🇫🇷 Français',
+                                'bg' => '🇧🇬 Български',
+                                'de' => '🇩🇪 Deutsch',
+                            ];
+                            $savedLocale = $user['preferred_language'] ?? 'en';
+                            ?>
+                            <select name="preferred_language" class="form-select mb-3" style="font-size:14px;">
+                                <?php foreach ($supportedLocales as $code => $label): ?>
+                                    <option value="<?= $code ?>" <?= $savedLocale === $code ? 'selected' : '' ?>>
+                                        <?= $label ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <button type="submit" class="btn btn-outline-primary w-100">
+                                <i class="bi bi-translate me-1"></i> <?= lang('Common.save_language') ?>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
                 <!-- Notifications -->
                 <div class="card border-0 shadow-sm rounded-3 mb-3">
                     <div class="card-body p-4">

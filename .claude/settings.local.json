@@ -3,7 +3,10 @@
     "allow": [
       "Bash(xargs grep *)",
       "PowerShell(& \"C:\\\\Program Files\\\\MySQL\\\\MySQL Server 8.0\\\\bin\\\\mysql.exe\" -u root \"-pAlin.Dumitru1987!\" alin_it_services -e \"ALTER TABLE product_user MODIFY COLUMN status ENUM\\('active','inactive','expired','cancelled','cart'\\) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active';\")",
-      "PowerShell(& \"C:\\\\Program Files\\\\MySQL\\\\MySQL Server 8.0\\\\bin\\\\mysql.exe\" -u root \"-pAlin.Dumitru1987!\" alin_it_services -e \"SHOW TABLES LIKE 'migrations'\")"
+      "PowerShell(& \"C:\\\\Program Files\\\\MySQL\\\\MySQL Server 8.0\\\\bin\\\\mysql.exe\" -u root \"-pAlin.Dumitru1987!\" alin_it_services -e \"SHOW TABLES LIKE 'migrations'\")",
+      "Bash(dir \"c:\\\\projects\\\\alinitservices\\\\aits\\\\app\")",
+      "Bash(php spark *)",
+      "PowerShell(& \"C:\\\\Program Files\\\\MySQL\\\\MySQL Server 8.0\\\\bin\\\\mysql.exe\" -u root \"-pAlin.Dumitru1987!\" alin_it_services -e \"ALTER TABLE users ADD COLUMN preferred_language VARCHAR\\(5\\) NOT NULL DEFAULT 'en' AFTER city;\" 2>&1)"
     ]
   }
 }

@@ -2,6 +2,23 @@
 use CodeIgniter\Router\RouteCollection;
 /** @var RouteCollection $routes */
 
+// ── Language Switcher ────────────────────────────────────
+$routes->post('lang', static function (): \CodeIgniter\HTTP\RedirectResponse {
+    $locale    = service('request')->getPost('locale');
+    $supported = config('App')->supportedLocales;
+    if (in_array($locale, $supported, true)) {
+        session()->set('locale', $locale);
+        if (session()->get('isLoggedIn')) {
+            model(\App\Models\UserModel::class)->update(
+                session()->get('user_id'),
+                ['preferred_language' => $locale]
+            );
+        }
+    }
+    $referer = service('request')->getServer('HTTP_REFERER');
+    return redirect()->to($referer ?: base_url('/'));
+});
+
 // ── Public ──────────────────────────────────────────────
 $routes->get('/', 'Home::index');
 $routes->get('products',                                          'Products::index');
@@ -49,6 +66,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->post('support/reply/(:segment)', 'Customer\Support::reply/$1');
 
     // in customer protected group
+    $routes->post('profile/language',      'Customer\Profile::updateLanguage');
     $routes->post('profile/notifications', 'Customer\Profile::updateNotifications');
     
     // Cart

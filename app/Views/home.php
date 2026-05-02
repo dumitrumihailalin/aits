@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= service('request')->getLocale() ?>">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -291,15 +291,15 @@
 
 <!-- ═══ HERO ══════════════════════════════════════════ -->
 <section class="hero">
-  <div class="hero-badge">🚀 Trusted IT Solutions for Growing Businesses</div>
-  <h1>IT Services That<br>Power Your Business</h1>
-  <p>From cloud hosting to CRM integration — we deliver the technology your company needs to grow faster and work smarter.</p>
+  <div class="hero-badge"><?= lang('Home.hero_badge') ?></div>
+  <h1><?= lang('Home.hero_title_1') ?><br><?= lang('Home.hero_title_2') ?></h1>
+  <p><?= lang('Home.hero_subtitle') ?></p>
   <div class="hero-btns">
     <a href="<?= base_url('register') ?>" class="btn-hero-primary">
-      <i class="bi bi-building-check"></i> Start Free Trial
+      <i class="bi bi-building-check"></i> <?= lang('Home.start_trial') ?>
     </a>
     <a href="<?= base_url('products') ?>" class="btn-hero-secondary">
-      <i class="bi bi-grid"></i> View Products
+      <i class="bi bi-grid"></i> <?= lang('Home.view_products') ?>
     </a>
   </div>
 </section>
@@ -309,19 +309,19 @@
   <div class="stats-inner">
     <div class="stat-item">
       <div class="stat-num">500+</div>
-      <div class="stat-lbl">Happy Clients</div>
+      <div class="stat-lbl"><?= lang('Home.happy_clients') ?></div>
     </div>
     <div class="stat-item">
       <div class="stat-num">99.9%</div>
-      <div class="stat-lbl">Uptime SLA</div>
+      <div class="stat-lbl"><?= lang('Home.uptime_sla') ?></div>
     </div>
     <div class="stat-item">
       <div class="stat-num">24/7</div>
-      <div class="stat-lbl">Support</div>
+      <div class="stat-lbl"><?= lang('Home.support_247') ?></div>
     </div>
     <div class="stat-item">
       <div class="stat-num"><?= count($products) ?>+</div>
-      <div class="stat-lbl">Services Available</div>
+      <div class="stat-lbl"><?= lang('Home.services_available') ?></div>
     </div>
   </div>
 </div>
@@ -329,9 +329,9 @@
 <!-- ═══ PRODUCTS ══════════════════════════════════════ -->
 <section class="section" id="products">
   <div class="section-header">
-    <div class="section-tag">Our Services</div>
-    <h2 class="section-title">Choose the right plan for your business</h2>
-    <p class="section-sub">All plans include dedicated support, regular updates and a 30-day money-back guarantee.</p>
+    <div class="section-tag"><?= lang('Home.our_services') ?></div>
+    <h2 class="section-title"><?= lang('Home.choose_plan') ?></h2>
+    <p class="section-sub"><?= lang('Home.plan_subtitle') ?></p>
   </div>
 
   <div class="products-grid">
@@ -339,7 +339,7 @@
     <div class="product-card <?= $product['is_featured'] ? 'featured' : '' ?>">
 
       <?php if ($product['is_featured']): ?>
-        <div class="featured-badge">Popular</div>
+        <div class="featured-badge"><?= lang('Home.popular') ?></div>
       <?php endif; ?>
 
       <div class="product-icon" style="background: <?= esc($product['color']) ?>">
@@ -358,7 +358,7 @@
       <?php $productUrl = base_url('products/' . $product['slug']); ?>
       <div class="product-actions">
         <a href="<?= $productUrl ?>" class="btn-card-primary">
-          <i class="bi bi-eye"></i> View Details
+          <i class="bi bi-eye"></i> <?= lang('Home.view_details') ?>
         </a>
       </div>
 
@@ -370,43 +370,43 @@
 <!-- ═══ WHY US ════════════════════════════════════════ -->
 <section class="section" id="why-us" style="background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
   <div class="section-header">
-    <div class="section-tag">Why AITS</div>
-    <h2 class="section-title">Built for businesses like yours</h2>
+    <div class="section-tag"><?= lang('Home.why_aits') ?></div>
+    <h2 class="section-title"><?= lang('Home.built_for') ?></h2>
   </div>
   <div class="why-grid">
     <div class="why-card">
       <div class="why-icon"><i class="bi bi-shield-check"></i></div>
-      <div class="why-title">Enterprise Security</div>
-      <div class="why-text">Your data is protected with enterprise-grade encryption and monitoring.</div>
+      <div class="why-title"><?= lang('Home.security_title') ?></div>
+      <div class="why-text"><?= lang('Home.security_text') ?></div>
     </div>
     <div class="why-card">
       <div class="why-icon"><i class="bi bi-headset"></i></div>
-      <div class="why-title">24/7 Support</div>
-      <div class="why-text">Our team is always available to help you resolve any issues fast.</div>
+      <div class="why-title"><?= lang('Home.support_title') ?></div>
+      <div class="why-text"><?= lang('Home.support_text') ?></div>
     </div>
     <div class="why-card">
       <div class="why-icon"><i class="bi bi-lightning-charge-fill"></i></div>
-      <div class="why-title">Fast Setup</div>
-      <div class="why-text">Get up and running in hours, not weeks. We handle everything for you.</div>
+      <div class="why-title"><?= lang('Home.setup_title') ?></div>
+      <div class="why-text"><?= lang('Home.setup_text') ?></div>
     </div>
     <div class="why-card">
       <div class="why-icon"><i class="bi bi-bar-chart-fill"></i></div>
-      <div class="why-title">Scalable Plans</div>
-      <div class="why-text">Start small and scale as your business grows. No lock-in contracts.</div>
+      <div class="why-title"><?= lang('Home.scale_title') ?></div>
+      <div class="why-text"><?= lang('Home.scale_text') ?></div>
     </div>
   </div>
 </section>
 
 <!-- ═══ CTA ═══════════════════════════════════════════ -->
 <section class="cta-section" id="contact">
-  <h2>Ready to grow your business?</h2>
-  <p>Join 500+ companies already using AITS to power their operations.</p>
+  <h2><?= lang('Home.cta_title') ?></h2>
+  <p><?= lang('Home.cta_subtitle') ?></p>
   <div class="hero-btns">
     <a href="<?= base_url('register') ?>" class="btn-hero-primary">
-      <i class="bi bi-building-check"></i> Create Free Account
+      <i class="bi bi-building-check"></i> <?= lang('Home.create_account') ?>
     </a>
     <a href="<?= base_url('contact') ?>" class="btn-hero-secondary">
-      <i class="bi bi-envelope"></i> Contact Us
+      <i class="bi bi-envelope"></i> <?= lang('Home.contact_us') ?>
     </a>
   </div>
 </section>
@@ -415,10 +415,10 @@
 <footer class="site-footer">
   <p>
     © <?= date('Y') ?> AITS — Alin IT Services &nbsp;·&nbsp;
-    <a href="<?= base_url('products') ?>">Products</a> &nbsp;·&nbsp;
-    <a href="<?= base_url('why-us') ?>">Why Us</a> &nbsp;·&nbsp;
-    <a href="<?= base_url('contact') ?>">Contact</a> &nbsp;·&nbsp;
-    <a href="<?= base_url('login') ?>">Sign In</a>
+    <a href="<?= base_url('products') ?>"><?= lang('Nav.products') ?></a> &nbsp;·&nbsp;
+    <a href="<?= base_url('why-us') ?>"><?= lang('Nav.why_us') ?></a> &nbsp;·&nbsp;
+    <a href="<?= base_url('contact') ?>"><?= lang('Nav.contact') ?></a> &nbsp;·&nbsp;
+    <a href="<?= base_url('login') ?>"><?= lang('Nav.sign_in') ?></a>
   </p>
 </footer>
 

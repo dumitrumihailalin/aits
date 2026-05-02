@@ -15,7 +15,7 @@ class UserModel extends Model
         'company_name', 'phone', 'address', 'country', 'city',
         'email_verified_at', 'verification_token',
         'reset_token', 'reset_expires_at', 'remember_token',
-        'notify_ticket_updates',
+        'notify_ticket_updates', 'preferred_language',
     ];
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';

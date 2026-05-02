@@ -14,6 +14,7 @@ use CodeIgniter\Filters\PerformanceMetrics;
 use CodeIgniter\Filters\SecureHeaders;
 use App\Filters\AdminFilter;
 use App\Filters\Auth;
+use App\Filters\LocaleFilter;
 
 class Filters extends BaseFilters
 {
@@ -29,6 +30,7 @@ class Filters extends BaseFilters
         'performance'   => PerformanceMetrics::class,
         'adminauth'     => AdminFilter::class,
         'auth'          => Auth::class,
+        'locale'        => LocaleFilter::class,
     ];
 
     public array $required = [
@@ -45,6 +47,7 @@ class Filters extends BaseFilters
 
     public array $globals = [
         'before' => [
+            'locale',
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',

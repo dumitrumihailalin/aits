@@ -181,6 +181,7 @@ class Auth extends BaseController
             'user_id'    => $user['id'],
             'name'       => $user['name'],
             'email'      => $user['email'],
+            'locale'     => $user['preferred_language'] ?? 'en',
         ]);
 
         $redirectTo = $this->request->getPost('redirect');

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= service('request')->getLocale() ?>">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -141,8 +141,8 @@
   </div>
   </a>
 
-  <h1>Welcome back</h1>
-  <p class="sub">Sign in to your company account.</p>
+  <h1><?= lang('Auth.welcome_back') ?></h1>
+  <p class="sub"><?= lang('Auth.sign_in_subtitle') ?></p>
 
   <?php if (session()->getFlashdata('error')): ?>
     <div class="alert-error">
@@ -176,7 +176,7 @@
     <?php endif; ?>
 
     <div class="field">
-      <label>Email Address</label>
+      <label><?= lang('Auth.email_address') ?></label>
       <div class="input-wrap">
         <i class="bi bi-envelope"></i>
         <input type="email" name="email"
@@ -186,30 +186,30 @@
     </div>
 
     <div class="field">
-      <label>Password</label>
+      <label><?= lang('Auth.password') ?></label>
       <div class="input-wrap">
         <i class="bi bi-lock"></i>
         <input type="password" id="password" name="password"
-               placeholder="Your password" required />
+               placeholder="<?= lang('Auth.your_password') ?>" required />
         <button type="button" class="toggle-pw" onclick="toggleVis('password', this)">
           <i class="bi bi-eye"></i>
         </button>
       </div>
       <a href="<?= base_url('forgot-password') ?>" class="forgot-link">
-        Forgot your password?
+        <?= lang('Auth.forgot_password') ?>
       </a>
     </div>
 
     <button type="submit" class="btn-submit">
-      <i class="bi bi-box-arrow-in-right"></i> Sign In
+      <i class="bi bi-box-arrow-in-right"></i> <?= lang('Auth.sign_in_btn') ?>
     </button>
 
   </form>
 
-  <div class="divider">or</div>
+  <div class="divider"><?= lang('Auth.or') ?></div>
 
   <div class="register-link">
-    Don't have an account? <a href="<?= base_url('register') ?>">Register your company</a>
+    <?= lang('Auth.no_account') ?> <a href="<?= base_url('register') ?>"><?= lang('Auth.register_company') ?></a>
   </div>
 
 </div>
