@@ -80,30 +80,7 @@
 <div id="sidebarOverlay" onclick="toggleSidebar()"
      style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;"></div>
 
-<!-- Sidebar -->
-<div id="sidebar">
-    <div class="sidebar-brand">
-        <a href="<?= base_url('/') ?>">
-            <span>💻 AITS</span>
-            <small>Alin IT Services</small>
-        </a>
-    </div>
-    <nav class="mt-3">
-        <a href="<?= base_url('dashboard') ?>" class="nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="<?= base_url('my-products') ?>" class="nav-link active"><i class="bi bi-grid"></i> Products</a>
-        <a href="<?= base_url('cart') ?>" class="nav-link">
-            <i class="bi bi-basket2"></i> Basket
-            <?php if ($cartCount > 0): ?>
-                <span class="badge bg-danger rounded-pill ms-auto" style="font-size:11px;"><?= $cartCount ?></span>
-            <?php endif; ?>
-        </a>
-        <a href="<?= base_url('invoices') ?>" class="nav-link"><i class="bi bi-receipt"></i> Invoices</a>
-        <a href="<?= base_url('support') ?>" class="nav-link"><i class="bi bi-headset"></i> Support</a>
-        <a href="<?= base_url('profile') ?>" class="nav-link"><i class="bi bi-person"></i> Profile</a>
-        <hr style="border-color:rgba(255,255,255,.15);margin:12px 24px;">
-        <a href="<?= base_url('logout') ?>" class="nav-link"><i class="bi bi-box-arrow-left"></i> Logout</a>
-    </nav>
-</div>
+<?= view('partials/customer_sidebar', ['activeNav' => 'products', 'cartCount' => $cartCount]) ?>
 
 <!-- Main -->
 <div id="main">
@@ -112,7 +89,7 @@
             <button class="btn btn-sm d-md-none" onclick="toggleSidebar()">
                 <i class="bi bi-list fs-5"></i>
             </button>
-            <h1 class="page-title">Select Products</h1>
+            <h1 class="page-title"><?= lang('Customer.page_products') ?></h1>
         </div>
         <div class="d-flex align-items-center gap-3">
             <div class="avatar"><?= strtoupper(substr(session()->get('name') ?? 'C', 0, 1)) ?></div>
@@ -137,7 +114,7 @@
         <div class="content">
             <div class="mb-4">
                 <p style="font-size:14px;color:#6b7280;margin:0;">
-                    Check the products you want, then click <strong>Save</strong>. Active products (already paid) cannot be unchecked.
+                    <?= lang('Customer.products_hint') ?>
                 </p>
             </div>
 
@@ -178,9 +155,9 @@
                             <small>/ <?= esc($p['price_label'] ?? 'month') ?></small>
                         </div>
                         <?php if ($isActive): ?>
-                            <div><span class="active-badge"><i class="bi bi-check-circle-fill me-1"></i>Active</span></div>
+                            <div><span class="active-badge"><i class="bi bi-check-circle-fill me-1"></i><?= lang('Customer.status_active') ?></span></div>
                         <?php elseif ($isChecked): ?>
-                            <div><span class="active-badge" style="background:#dbeafe;color:#1d4ed8;">In Basket</span></div>
+                            <div><span class="active-badge" style="background:#dbeafe;color:#1d4ed8;"><?= lang('Customer.status_in_basket') ?></span></div>
                         <?php endif; ?>
                     </label>
                 </div>
@@ -192,7 +169,7 @@
         <div class="save-bar">
             <span style="font-size:13px;color:#6b7280;" id="selCount"></span>
             <button type="submit" class="btn btn-primary px-4">
-                <i class="bi bi-floppy me-2"></i>Save Selection
+                <i class="bi bi-floppy me-2"></i><?= lang('Customer.products_save') ?>
             </button>
         </div>
     </form>

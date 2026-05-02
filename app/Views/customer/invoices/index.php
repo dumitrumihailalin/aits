@@ -26,31 +26,12 @@
 <body>
 <?php $cartCount = model('App\Models\CartModel')->getCount(session()->get('user_id')); ?>
 
-<div id="sidebarOverlay" onclick="toggleSidebar()"
-     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;"></div>
-<div id="sidebar">
-    <div class="brand"><span>💻 AITS</span><small>Alin IT Services</small></div>
-    <nav class="mt-3">
-        <a href="<?= base_url('dashboard') ?>" class="nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="<?= base_url('/') ?>#products" class="nav-link"><i class="bi bi-grid"></i> Products</a>
-        <a href="<?= base_url('cart') ?>" class="nav-link">
-            <i class="bi bi-basket2"></i> Basket
-            <?php if ($cartCount > 0): ?>
-                <span class="badge bg-danger rounded-pill ms-auto" style="font-size:11px;"><?= $cartCount ?></span>
-            <?php endif; ?>
-        </a>
-        <a href="<?= base_url('invoices') ?>" class="nav-link active"><i class="bi bi-receipt"></i> Invoices</a>
-        <a href="<?= base_url('support') ?>" class="nav-link"><i class="bi bi-headset"></i> Support</a>
-        <a href="<?= base_url('profile') ?>" class="nav-link"><i class="bi bi-person"></i> Profile</a>
-        <hr style="border-color:rgba(255,255,255,.15);margin:12px 24px;">
-        <a href="<?= base_url('logout') ?>" class="nav-link"><i class="bi bi-box-arrow-left"></i> Logout</a>
-    </nav>
-</div>
+<?= view('partials/customer_sidebar', ['activeNav' => 'invoices', 'cartCount' => $cartCount]) ?>
 <div id="main">
     <div id="topbar">
         <div class="d-flex align-items-center gap-3">
             <button class="btn btn-sm d-md-none" onclick="toggleSidebar()"><i class="bi bi-list fs-5"></i></button>
-            <h1 style="font-size:16px;font-weight:600;color:#111827;margin:0;">Invoices</h1>
+            <h1 style="font-size:16px;font-weight:600;color:#111827;margin:0;"><?= lang('Customer.page_invoices') ?></h1>
         </div>
         <div class="d-flex align-items-center gap-3">
             <a href="<?= base_url('cart') ?>" class="position-relative text-decoration-none" title="My Basket">
@@ -72,8 +53,8 @@
         <?php endif; ?>
 
         <div class="mb-4">
-            <h2 style="font-size:18px;font-weight:700;color:#111827;margin:0;">My Invoices</h2>
-            <p style="font-size:14px;color:#6b7280;margin:0;">View and pay your invoices.</p>
+            <h2 style="font-size:18px;font-weight:700;color:#111827;margin:0;"><?= lang('Customer.invoices_my') ?></h2>
+            <p style="font-size:14px;color:#6b7280;margin:0;"><?= lang('Customer.invoices_subtitle') ?></p>
         </div>
 
         <div class="card border-0 shadow-sm rounded-3">
@@ -81,17 +62,17 @@
                 <?php if (empty($invoices)): ?>
                     <div class="text-center py-5 text-muted">
                         <i class="bi bi-receipt" style="font-size:40px;"></i>
-                        <p class="mt-3">No invoices yet.</p>
+                        <p class="mt-3"><?= lang('Customer.no_invoices_yet') ?></p>
                     </div>
                 <?php else: ?>
                 <table class="table table-hover mb-0">
                     <thead style="background:#f8faff;font-size:12px;color:#6b7280;">
                         <tr>
-                            <th class="ps-4 py-3">Invoice #</th>
-                            <th>Description</th>
-                            <th>Amount</th>
-                            <th>Due Date</th>
-                            <th>Status</th>
+                            <th class="ps-4 py-3"><?= lang('Customer.col_invoice_number') ?></th>
+                            <th><?= lang('Customer.col_description') ?></th>
+                            <th><?= lang('Customer.col_amount') ?></th>
+                            <th><?= lang('Customer.col_due_date') ?></th>
+                            <th><?= lang('Customer.col_status') ?></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -117,7 +98,7 @@
                             </td>
                             <td>
                                 <a href="<?= base_url('invoices/' . $invoice['id']) ?>" class="btn btn-sm btn-outline-primary">
-                                    View
+                                    <?= lang('Customer.btn_view') ?>
                                 </a>
                             </td>
                         </tr>

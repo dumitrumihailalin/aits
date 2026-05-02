@@ -39,35 +39,14 @@
 <div id="sidebarOverlay" onclick="toggleSidebar()"
      style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;"></div>
 
-<!-- Sidebar -->
-<div id="sidebar">
-    <div class="brand">
-        <span>💻 AITS</span>
-        <small>Alin IT Services</small>
-    </div>
-    <nav class="mt-3">
-        <a href="<?= base_url('dashboard') ?>" class="nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="<?= base_url('/') ?>#products" class="nav-link"><i class="bi bi-grid"></i> Products</a>
-        <a href="<?= base_url('cart') ?>" class="nav-link">
-            <i class="bi bi-basket2"></i> Basket
-            <?php if ($cartCount > 0): ?>
-                <span class="badge bg-danger rounded-pill ms-auto" style="font-size:11px;"><?= $cartCount ?></span>
-            <?php endif; ?>
-        </a>
-        <a href="<?= base_url('invoices') ?>" class="nav-link"><i class="bi bi-receipt"></i> Invoices</a>
-        <a href="<?= base_url('support') ?>" class="nav-link active"><i class="bi bi-headset"></i> Support</a>
-        <a href="<?= base_url('profile') ?>" class="nav-link"><i class="bi bi-person"></i> Profile</a>
-        <hr style="border-color:rgba(255,255,255,.15);margin:12px 24px;">
-        <a href="<?= base_url('logout') ?>" class="nav-link"><i class="bi bi-box-arrow-left"></i> Logout</a>
-    </nav>
-</div>
+<?= view('partials/customer_sidebar', ['activeNav' => 'support', 'cartCount' => $cartCount]) ?>
 
 <!-- Main -->
 <div id="main">
     <div id="topbar">
         <div class="d-flex align-items-center gap-3">
             <button class="btn btn-sm d-md-none" onclick="toggleSidebar()"><i class="bi bi-list fs-5"></i></button>
-            <h1 style="font-size:16px;font-weight:600;color:#111827;margin:0;">Support Tickets</h1>
+            <h1 style="font-size:16px;font-weight:600;color:#111827;margin:0;"><?= lang('Customer.page_support') ?></h1>
         </div>
         <div class="d-flex align-items-center gap-3">
             <a href="<?= base_url('cart') ?>" class="position-relative text-decoration-none" title="My Basket">
@@ -98,11 +77,11 @@
         <!-- Header -->
         <div class="d-flex align-items-center justify-content-between mb-4">
             <div>
-                <h2 style="font-size:18px;font-weight:700;color:#111827;margin:0;">My Tickets</h2>
-                <p style="font-size:14px;color:#6b7280;margin:0;">Track and manage your support requests.</p>
+                <h2 style="font-size:18px;font-weight:700;color:#111827;margin:0;"><?= lang('Customer.tickets_my') ?></h2>
+                <p style="font-size:14px;color:#6b7280;margin:0;"><?= lang('Customer.tickets_subtitle') ?></p>
             </div>
             <a href="<?= base_url('support/create') ?>" class="btn btn-primary btn-sm">
-                <i class="bi bi-plus-circle me-1"></i> New Ticket
+                <i class="bi bi-plus-circle me-1"></i> <?= lang('Customer.tickets_new_btn') ?>
             </a>
         </div>
 
@@ -112,17 +91,17 @@
                 <?php if (empty($tickets)): ?>
                     <div class="text-center py-5 text-muted">
                         <i class="bi bi-headset" style="font-size:40px;"></i>
-                        <p class="mt-3">No tickets yet. <a href="<?= base_url('support/create') ?>">Open your first ticket</a>.</p>
+                        <p class="mt-3"><?= lang('Customer.tickets_empty') ?> <a href="<?= base_url('support/create') ?>"><?= lang('Customer.tickets_open_first') ?></a>.</p>
                     </div>
                 <?php else: ?>
                 <table class="table table-hover mb-0">
                     <thead style="background:#f8faff;font-size:12px;color:#6b7280;">
                         <tr>
-                            <th class="ps-4 py-3">#</th>
-                            <th>Subject</th>
-                            <th>Priority</th>
-                            <th>Status</th>
-                            <th>Created</th>
+                            <th class="ps-4 py-3"><?= lang('Customer.tickets_col_id') ?></th>
+                            <th><?= lang('Customer.tickets_col_subject') ?></th>
+                            <th><?= lang('Customer.tickets_col_priority') ?></th>
+                            <th><?= lang('Customer.col_status') ?></th>
+                            <th><?= lang('Customer.tickets_col_created') ?></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -149,7 +128,7 @@
                             </td>
                             <td>
                                 <a href="<?= base_url('support/' . $ticket['id']) ?>" class="btn btn-sm btn-outline-primary">
-                                    View
+                                    <?= lang('Customer.btn_view') ?>
                                 </a>
                             </td>
                         </tr>

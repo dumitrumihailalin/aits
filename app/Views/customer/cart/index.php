@@ -25,33 +25,13 @@
 <body>
 <?php $cartCount = count($items); ?>
 
-<div id="sidebarOverlay" onclick="toggleSidebar()"
-     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;"></div>
-
-<div id="sidebar">
-    <div class="brand"><span>💻 AITS</span><small>Alin IT Services</small></div>
-    <nav class="mt-3">
-        <a href="<?= base_url('dashboard') ?>" class="nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="<?= base_url('/') ?>#products" class="nav-link"><i class="bi bi-grid"></i> Products</a>
-        <a href="<?= base_url('cart') ?>" class="nav-link active">
-            <i class="bi bi-basket2"></i> Basket
-            <?php if ($cartCount > 0): ?>
-                <span class="badge bg-danger rounded-pill ms-auto" style="font-size:11px;"><?= $cartCount ?></span>
-            <?php endif; ?>
-        </a>
-        <a href="<?= base_url('invoices') ?>" class="nav-link"><i class="bi bi-receipt"></i> Invoices</a>
-        <a href="<?= base_url('support') ?>" class="nav-link"><i class="bi bi-headset"></i> Support</a>
-        <a href="<?= base_url('profile') ?>" class="nav-link"><i class="bi bi-person"></i> Profile</a>
-        <hr style="border-color:rgba(255,255,255,.15);margin:12px 24px;">
-        <a href="<?= base_url('logout') ?>" class="nav-link"><i class="bi bi-box-arrow-left"></i> Logout</a>
-    </nav>
-</div>
+<?= view('partials/customer_sidebar', ['activeNav' => 'basket', 'cartCount' => $cartCount]) ?>
 
 <div id="main">
     <div id="topbar">
         <div class="d-flex align-items-center gap-3">
             <button class="btn btn-sm d-md-none" onclick="toggleSidebar()"><i class="bi bi-list fs-5"></i></button>
-            <h1 style="font-size:16px;font-weight:600;color:#111827;margin:0;">My Basket</h1>
+            <h1 style="font-size:16px;font-weight:600;color:#111827;margin:0;"><?= lang('Customer.page_basket') ?></h1>
         </div>
         <div class="d-flex align-items-center gap-3">
             <a href="<?= base_url('cart') ?>" class="position-relative text-decoration-none" title="My Basket">
@@ -77,20 +57,20 @@
 
         <div class="d-flex align-items-center justify-content-between mb-4">
             <div>
-                <h2 style="font-size:18px;font-weight:700;color:#111827;margin:0;">Basket</h2>
-                <p style="font-size:14px;color:#6b7280;margin:0;">Review your selected products before placing an order.</p>
+                <h2 style="font-size:18px;font-weight:700;color:#111827;margin:0;"><?= lang('Customer.page_basket') ?></h2>
+                <p style="font-size:14px;color:#6b7280;margin:0;"><?= lang('Customer.basket_review') ?></p>
             </div>
             <a href="<?= base_url('/') ?>#products" class="btn btn-outline-primary btn-sm">
-                <i class="bi bi-plus-circle me-1"></i> Add More
+                <i class="bi bi-plus-circle me-1"></i> <?= lang('Customer.basket_add_more') ?>
             </a>
         </div>
 
         <?php if (empty($items)): ?>
             <div class="text-center py-5" style="background:#fff;border:1px solid #e5eaf5;border-radius:16px;">
                 <i class="bi bi-basket2" style="font-size:48px;color:#d1d5db;display:block;margin-bottom:16px;"></i>
-                <p style="font-size:16px;font-weight:600;color:#374151;">Your basket is empty</p>
-                <p style="font-size:14px;color:#6b7280;margin-bottom:24px;">Browse our products and add something you like.</p>
-                <a href="<?= base_url('/') ?>#products" class="btn btn-primary">Browse Products</a>
+                <p style="font-size:16px;font-weight:600;color:#374151;"><?= lang('Customer.basket_empty') ?></p>
+                <p style="font-size:14px;color:#6b7280;margin-bottom:24px;"><?= lang('Customer.basket_empty_hint') ?></p>
+                <a href="<?= base_url('/') ?>#products" class="btn btn-primary"><?= lang('Customer.basket_browse') ?></a>
             </div>
         <?php else: ?>
 
@@ -124,7 +104,7 @@
 
                 <div class="col-lg-4">
                     <div style="background:#fff;border:1px solid #e5eaf5;border-radius:16px;padding:24px;position:sticky;top:80px;">
-                        <h3 style="font-size:16px;font-weight:700;color:#111827;margin-bottom:20px;">Order Summary</h3>
+                        <h3 style="font-size:16px;font-weight:700;color:#111827;margin-bottom:20px;"><?= lang('Customer.basket_order_summary') ?></h3>
 
                         <?php $total = array_sum(array_column($items, 'price')); ?>
 
@@ -134,18 +114,18 @@
                         </div>
                         <hr style="border-color:#e5eaf5;">
                         <div class="d-flex justify-content-between mb-4" style="font-size:16px;font-weight:700;color:#111827;">
-                            <span>Total</span>
+                            <span><?= lang('Customer.invoice_col_line_total') ?></span>
                             <span style="color:#1877f2;">$<?= number_format($total, 2) ?></span>
                         </div>
 
                         <form action="<?= base_url('cart/checkout') ?>" method="POST">
                             <?= csrf_field() ?>
                             <button type="submit" class="btn btn-primary w-100 py-2" style="font-weight:700;">
-                                <i class="bi bi-bag-check me-2"></i> Place Order
+                                <i class="bi bi-bag-check me-2"></i> <?= lang('Customer.basket_place_order') ?>
                             </button>
                         </form>
                         <p class="mt-2 text-center" style="font-size:12px;color:#9ca3af;">
-                            You'll receive an invoice after placing the order.
+                            <?= lang('Customer.basket_invoice_note') ?>
                         </p>
                     </div>
                 </div>

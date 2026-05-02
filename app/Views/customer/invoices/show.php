@@ -41,26 +41,7 @@
 <body>
 <?php $cartCount = model('App\Models\CartModel')->getCount(session()->get('user_id')); ?>
 
-<div id="sidebarOverlay" onclick="toggleSidebar()"
-     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;"></div>
-<div id="sidebar">
-    <div class="brand"><span>💻 AITS</span><small>Alin IT Services</small></div>
-    <nav class="mt-3">
-        <a href="<?= base_url('dashboard') ?>" class="nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="<?= base_url('/') ?>#products" class="nav-link"><i class="bi bi-grid"></i> Products</a>
-        <a href="<?= base_url('cart') ?>" class="nav-link">
-            <i class="bi bi-basket2"></i> Basket
-            <?php if ($cartCount > 0): ?>
-                <span class="badge bg-danger rounded-pill ms-auto" style="font-size:11px;"><?= $cartCount ?></span>
-            <?php endif; ?>
-        </a>
-        <a href="<?= base_url('invoices') ?>" class="nav-link active"><i class="bi bi-receipt"></i> Invoices</a>
-        <a href="<?= base_url('support') ?>" class="nav-link"><i class="bi bi-headset"></i> Support</a>
-        <a href="<?= base_url('profile') ?>" class="nav-link"><i class="bi bi-person"></i> Profile</a>
-        <hr style="border-color:rgba(255,255,255,.15);margin:12px 24px;">
-        <a href="<?= base_url('logout') ?>" class="nav-link"><i class="bi bi-box-arrow-left"></i> Logout</a>
-    </nav>
-</div>
+<?= view('partials/customer_sidebar', ['activeNav' => 'invoices', 'cartCount' => $cartCount]) ?>
 <div id="main">
     <div id="topbar">
         <div class="d-flex align-items-center gap-3">
@@ -72,7 +53,7 @@
         <div class="d-flex align-items-center gap-3">
             <a href="<?= base_url('invoices/' . esc($invoice['id']) . '/pdf') ?>" target="_blank"
                class="btn btn-sm btn-primary d-none d-md-inline-flex align-items-center gap-1">
-                <i class="bi bi-file-earmark-pdf"></i> Download PDF
+                <i class="bi bi-file-earmark-pdf"></i> <?= lang('Customer.invoice_download_pdf') ?>
             </a>
             <a href="<?= base_url('cart') ?>" class="position-relative text-decoration-none" title="My Basket">
                 <i class="bi bi-basket2" style="font-size:20px;color:#6b7280;"></i>
@@ -113,19 +94,19 @@
                     <!-- Dates -->
                     <div class="row mb-4">
                         <div class="col-4">
-                            <div style="font-size:12px;color:#6b7280;">Issue Date</div>
+                            <div style="font-size:12px;color:#6b7280;"><?= lang('Customer.invoice_issue_date') ?></div>
                             <div style="font-size:14px;font-weight:600;color:#111827;">
                                 <?= $invoice['issue_date'] ? date('M d, Y', strtotime($invoice['issue_date'])) : date('M d, Y', strtotime($invoice['created_at'])) ?>
                             </div>
                         </div>
                         <div class="col-4">
-                            <div style="font-size:12px;color:#6b7280;">Due Date</div>
+                            <div style="font-size:12px;color:#6b7280;"><?= lang('Customer.col_due_date') ?></div>
                             <div style="font-size:14px;font-weight:600;color:<?= $invoice['status'] === 'unpaid' ? '#dc2626' : '#111827' ?>;">
                                 <?= $invoice['due_date'] ? date('M d, Y', strtotime($invoice['due_date'])) : '—' ?>
                             </div>
                         </div>
                         <div class="col-4">
-                            <div style="font-size:12px;color:#6b7280;">Status</div>
+                            <div style="font-size:12px;color:#6b7280;"><?= lang('Customer.col_status') ?></div>
                             <div style="font-size:14px;font-weight:600;">
                                 <span class="badge badge-<?= $invoice['status'] ?> rounded-pill px-3"><?= ucfirst($invoice['status']) ?></span>
                             </div>
@@ -139,10 +120,10 @@
                         <table class="table table-sm mb-0">
                             <thead style="font-size:12px;color:#6b7280;">
                                 <tr>
-                                    <th>Product / Service</th>
-                                    <th class="text-center">Qty</th>
-                                    <th class="text-end">Unit Price</th>
-                                    <th class="text-end">Total</th>
+                                    <th><?= lang('Customer.invoice_col_product') ?></th>
+                                    <th class="text-center"><?= lang('Customer.invoice_col_qty') ?></th>
+                                    <th class="text-end"><?= lang('Customer.invoice_col_unit_price') ?></th>
+                                    <th class="text-end"><?= lang('Customer.invoice_col_line_total') ?></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -170,14 +151,14 @@
 
                     <?php if ($invoice['notes']): ?>
                     <div style="font-size:13px;color:#6b7280;margin-bottom:24px;">
-                        <strong>Notes:</strong> <?= esc($invoice['notes']) ?>
+                        <strong><?= lang('Customer.invoice_notes') ?>:</strong> <?= esc($invoice['notes']) ?>
                     </div>
                     <?php endif; ?>
 
                     <!-- Total -->
                     <div style="background:#1877f2;border-radius:10px;padding:16px 24px;">
                         <div class="d-flex justify-content-between align-items-center">
-                            <span style="color:rgba(255,255,255,.8);font-size:14px;">Total Due</span>
+                            <span style="color:rgba(255,255,255,.8);font-size:14px;"><?= lang('Customer.invoice_total_due') ?></span>
                             <span style="color:#fff;font-size:24px;font-weight:800;">$<?= number_format($invoice['total_amount'] ?? $invoice['amount'], 2) ?></span>
                         </div>
                     </div>
@@ -186,8 +167,7 @@
                     <div class="mt-4 p-3 rounded-3 d-flex align-items-center gap-3" style="background:#fef9c3;border:1px solid #fde047;">
                         <i class="bi bi-exclamation-triangle-fill" style="color:#92400e;font-size:20px;flex-shrink:0;"></i>
                         <div style="font-size:13px;color:#92400e;">
-                            This invoice is <strong>unpaid</strong>. Please contact us at
-                            <a href="mailto:support@alinitservices.com" style="color:#92400e;">support@alinitservices.com</a> to arrange payment.
+                            <?= lang('Customer.invoice_unpaid_notice') ?>
                         </div>
                     </div>
                     <?php endif; ?>
@@ -199,13 +179,13 @@
                                 onclick="openPayModal('<?= esc($invoice['id']) ?>', <?= (float)($invoice['total_amount'] ?? $invoice['amount']) ?>, '<?= esc($invoice['invoice_number']) ?>')"
                                 class="btn btn-success d-flex align-items-center gap-2">
                             <i class="bi bi-credit-card fs-5"></i>
-                            <span>Pay Now</span>
+                            <span><?= lang('Customer.invoice_pay_now') ?></span>
                         </button>
                         <?php endif; ?>
                         <a href="<?= base_url('invoices/' . esc($invoice['id']) . '/pdf') ?>" target="_blank"
                            class="btn btn-primary d-flex align-items-center gap-2">
                             <i class="bi bi-file-earmark-pdf fs-5"></i>
-                            <span>Download Invoice as PDF</span>
+                            <span><?= lang('Customer.invoice_download_full') ?></span>
                         </a>
                     </div>
 
@@ -221,34 +201,34 @@
 <div class="pay-modal-overlay" id="payModalOverlay" onclick="handleOverlayClick(event)">
     <div class="pay-modal">
         <div class="d-flex justify-content-between align-items-start mb-1">
-            <h3>Pay Invoice</h3>
+            <h3><?= lang('Customer.invoice_pay_title') ?></h3>
             <button onclick="closePayModal()" style="background:none;border:none;cursor:pointer;font-size:20px;color:#9ca3af;line-height:1;">&times;</button>
         </div>
-        <p class="subtitle" id="paySubtitle">Complete your payment securely.</p>
+        <p class="subtitle" id="paySubtitle"><?= lang('Customer.invoice_pay_subtitle') ?></p>
 
         <form id="payForm" onsubmit="handlePaySubmit(event)">
             <input type="hidden" id="payInvoiceId">
 
             <div class="mb-3">
-                <label class="form-label-sm">Card Number</label>
+                <label class="form-label-sm"><?= lang('Customer.invoice_card_number') ?></label>
                 <input type="text" id="cardNumber" class="pay-input" placeholder="1234 5678 9012 3456"
                        maxlength="19" inputmode="numeric" autocomplete="cc-number" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label-sm">Cardholder Name</label>
+                <label class="form-label-sm"><?= lang('Customer.invoice_cardholder') ?></label>
                 <input type="text" id="cardName" class="pay-input" placeholder="Name on card"
                        autocomplete="cc-name" required>
             </div>
 
             <div class="card-row">
                 <div>
-                    <label class="form-label-sm">Expiry Date</label>
+                    <label class="form-label-sm"><?= lang('Customer.invoice_expiry') ?></label>
                     <input type="text" id="cardExpiry" class="pay-input" placeholder="MM / YY"
                            maxlength="7" inputmode="numeric" autocomplete="cc-exp" required>
                 </div>
                 <div>
-                    <label class="form-label-sm">CVC</label>
+                    <label class="form-label-sm"><?= lang('Customer.invoice_cvc') ?></label>
                     <input type="text" id="cardCvc" class="pay-input" placeholder="CVC"
                            maxlength="4" inputmode="numeric" autocomplete="cc-csc" required>
                 </div>
@@ -261,7 +241,7 @@
 
         <div class="secure-note">
             <i class="bi bi-lock-fill"></i>
-            <span>Payments are encrypted and secure</span>
+            <span><?= lang('Customer.invoice_secure') ?></span>
         </div>
     </div>
 </div>

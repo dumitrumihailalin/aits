@@ -30,33 +30,13 @@
 
 <?php $cartCount = model('App\Models\CartModel')->getCount(session()->get('user_id')); ?>
 
-<div id="sidebarOverlay" onclick="toggleSidebar()"
-     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;"></div>
-
-<div id="sidebar">
-    <div class="brand"><span>💻 AITS</span><small>Alin IT Services</small></div>
-    <nav class="mt-3">
-        <a href="<?= base_url('dashboard') ?>" class="nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="<?= base_url('/') ?>#products" class="nav-link"><i class="bi bi-grid"></i> Products</a>
-        <a href="<?= base_url('cart') ?>" class="nav-link">
-            <i class="bi bi-basket2"></i> Basket
-            <?php if ($cartCount > 0): ?>
-                <span class="badge bg-danger rounded-pill ms-auto" style="font-size:11px;"><?= $cartCount ?></span>
-            <?php endif; ?>
-        </a>
-        <a href="<?= base_url('invoices') ?>" class="nav-link"><i class="bi bi-receipt"></i> Invoices</a>
-        <a href="<?= base_url('support') ?>" class="nav-link"><i class="bi bi-headset"></i> Support</a>
-        <a href="<?= base_url('profile') ?>" class="nav-link active"><i class="bi bi-person"></i> Profile</a>
-        <hr style="border-color:rgba(255,255,255,.15);margin:12px 24px;">
-        <a href="<?= base_url('logout') ?>" class="nav-link"><i class="bi bi-box-arrow-left"></i> Logout</a>
-    </nav>
-</div>
+<?= view('partials/customer_sidebar', ['activeNav' => 'profile', 'cartCount' => $cartCount]) ?>
 
 <div id="main">
     <div id="topbar">
         <div class="d-flex align-items-center gap-3">
             <button class="btn btn-sm d-md-none" onclick="toggleSidebar()"><i class="bi bi-list fs-5"></i></button>
-            <h1 style="font-size:16px;font-weight:600;color:#111827;margin:0;">My Profile</h1>
+            <h1 style="font-size:16px;font-weight:600;color:#111827;margin:0;"><?= lang('Customer.page_profile') ?></h1>
         </div>
         <div style="display:flex;align-items:center;gap:10px;">
             <div class="avatar">
@@ -108,7 +88,7 @@
             <div class="col-lg-8">
                 <div class="card border-0 shadow-sm rounded-3 mb-4">
                     <div class="card-body p-4">
-                        <h5 style="font-weight:700;color:#111827;margin-bottom:24px;">Company Logo & Information</h5>
+                        <h5 style="font-weight:700;color:#111827;margin-bottom:24px;"><?= lang('Customer.profile_logo_section') ?></h5>
 
                         <!-- Logo preview -->
                         <div class="d-flex align-items-center gap-4 mb-4">
@@ -127,9 +107,9 @@
                             </div>
                             <div>
                                 <div style="font-size:15px;font-weight:600;color:#111827;"><?= esc($user['company_name'] ?? $user['name']) ?></div>
-                                <div style="font-size:13px;color:#6b7280;margin-bottom:8px;">JPG, PNG or WebP. Max 2MB.</div>
+                                <div style="font-size:13px;color:#6b7280;margin-bottom:8px;"><?= lang('Customer.profile_logo_hint') ?></div>
                                 <label for="logoInput" class="btn btn-sm btn-outline-primary" style="cursor:pointer;">
-                                    <i class="bi bi-upload me-1"></i> Upload Logo
+                                    <i class="bi bi-upload me-1"></i> <?= lang('Customer.profile_upload_logo') ?>
                                 </label>
                             </div>
                         </div>
@@ -145,44 +125,44 @@
 
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label class="form-label fw-semibold" style="font-size:14px;">Full Name</label>
+                                    <label class="form-label fw-semibold" style="font-size:14px;"><?= lang('Customer.profile_full_name') ?></label>
                                     <input type="text" name="name" class="form-control"
                                            value="<?= esc($user['name']) ?>" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label fw-semibold" style="font-size:14px;">Email</label>
+                                    <label class="form-label fw-semibold" style="font-size:14px;"><?= lang('Customer.profile_email_label') ?></label>
                                     <input type="email" class="form-control"
                                            value="<?= esc($user['email']) ?>" disabled>
-                                    <div class="form-text">Email cannot be changed.</div>
+                                    <div class="form-text"><?= lang('Customer.profile_email_hint') ?></div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label fw-semibold" style="font-size:14px;">Company Name</label>
+                                    <label class="form-label fw-semibold" style="font-size:14px;"><?= lang('Customer.profile_company_name') ?></label>
                                     <input type="text" name="company_name" class="form-control"
                                            value="<?= esc($user['company_name'] ?? '') ?>">
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label fw-semibold" style="font-size:14px;">Phone</label>
+                                    <label class="form-label fw-semibold" style="font-size:14px;"><?= lang('Customer.profile_phone') ?></label>
                                     <input type="text" name="phone" class="form-control"
                                            value="<?= esc($user['phone'] ?? '') ?>">
                                 </div>
                                 <div class="col-12">
-                                    <label class="form-label fw-semibold" style="font-size:14px;">Address</label>
+                                    <label class="form-label fw-semibold" style="font-size:14px;"><?= lang('Customer.profile_address') ?></label>
                                     <input type="text" name="address" class="form-control"
                                            value="<?= esc($user['address'] ?? '') ?>">
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label fw-semibold" style="font-size:14px;">Country</label>
+                                    <label class="form-label fw-semibold" style="font-size:14px;"><?= lang('Customer.profile_country') ?></label>
                                     <input type="text" name="country" class="form-control"
                                            value="<?= esc($user['country'] ?? '') ?>">
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label fw-semibold" style="font-size:14px;">City</label>
+                                    <label class="form-label fw-semibold" style="font-size:14px;"><?= lang('Customer.profile_city') ?></label>
                                     <input type="text" name="city" class="form-control"
                                            value="<?= esc($user['city'] ?? '') ?>">
                                 </div>
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-primary px-4">
-                                        <i class="bi bi-save me-1"></i> Save Changes
+                                        <i class="bi bi-save me-1"></i> <?= lang('Customer.profile_save') ?>
                                     </button>
                                 </div>
                             </div>
@@ -197,19 +177,19 @@
                 <!-- Change password -->
                 <div class="card border-0 shadow-sm rounded-3 mb-3">
                     <div class="card-body p-4">
-                        <h5 style="font-weight:700;color:#111827;margin-bottom:24px;">Change Password</h5>
+                        <h5 style="font-weight:700;color:#111827;margin-bottom:24px;"><?= lang('Customer.profile_change_password') ?></h5>
                         <form action="<?= base_url('profile') ?>" method="POST">
                             <?= csrf_field() ?>
                             <div class="mb-3">
-                                <label class="form-label fw-semibold" style="font-size:14px;">Current Password</label>
+                                <label class="form-label fw-semibold" style="font-size:14px;"><?= lang('Customer.profile_current_pw') ?></label>
                                 <input type="password" name="current_password" class="form-control">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label fw-semibold" style="font-size:14px;">New Password</label>
+                                <label class="form-label fw-semibold" style="font-size:14px;"><?= lang('Customer.profile_new_pw') ?></label>
                                 <input type="password" name="new_password" class="form-control">
                             </div>
                             <div class="mb-4">
-                                <label class="form-label fw-semibold" style="font-size:14px;">Confirm New Password</label>
+                                <label class="form-label fw-semibold" style="font-size:14px;"><?= lang('Customer.profile_confirm_pw') ?></label>
                                 <input type="password" name="new_password_confirm" class="form-control">
                             </div>
                             <input type="hidden" name="name" value="<?= esc($user['name']) ?>">
@@ -219,7 +199,7 @@
                             <input type="hidden" name="country" value="<?= esc($user['country'] ?? '') ?>">
                             <input type="hidden" name="city" value="<?= esc($user['city'] ?? '') ?>">
                             <button type="submit" class="btn btn-outline-primary w-100">
-                                <i class="bi bi-lock me-1"></i> Update Password
+                                <i class="bi bi-lock me-1"></i> <?= lang('Customer.profile_update_pw') ?>
                             </button>
                         </form>
                     </div>
@@ -261,7 +241,7 @@
                 <!-- Notifications -->
                 <div class="card border-0 shadow-sm rounded-3 mb-3">
                     <div class="card-body p-4">
-                        <h5 style="font-weight:700;color:#111827;margin-bottom:16px;">Notifications</h5>
+                        <h5 style="font-weight:700;color:#111827;margin-bottom:16px;"><?= lang('Customer.profile_notifications') ?></h5>
                         <form action="<?= base_url('profile/notifications') ?>" method="POST">
                             <?= csrf_field() ?>
                             <div class="form-check form-switch">
@@ -270,7 +250,7 @@
                                        <?= $user['notify_ticket_updates'] ? 'checked' : '' ?>
                                        onchange="this.form.submit()">
                                 <label class="form-check-label" for="notifyTickets" style="font-size:14px;">
-                                    Email me when my ticket is updated
+                                    <?= lang('Customer.profile_notify_tickets') ?>
                                 </label>
                             </div>
                         </form>
@@ -280,24 +260,24 @@
                 <!-- Account info -->
                 <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-body p-4">
-                        <h5 style="font-weight:700;color:#111827;margin-bottom:16px;">Account Info</h5>
+                        <h5 style="font-weight:700;color:#111827;margin-bottom:16px;"><?= lang('Customer.profile_account_info') ?></h5>
                         <table style="font-size:13px;width:100%;">
                             <tr>
-                                <td style="color:#6b7280;padding-bottom:8px;">Role</td>
-                                <td class="text-end"><span class="badge bg-primary rounded-pill">Customer</span></td>
+                                <td style="color:#6b7280;padding-bottom:8px;"><?= lang('Customer.profile_role') ?></td>
+                                <td class="text-end"><span class="badge bg-primary rounded-pill"><?= lang('Customer.profile_role_customer') ?></span></td>
                             </tr>
                             <tr>
-                                <td style="color:#6b7280;padding-bottom:8px;">Verified</td>
+                                <td style="color:#6b7280;padding-bottom:8px;"><?= lang('Customer.profile_verified') ?></td>
                                 <td class="text-end">
                                     <?php if ($user['email_verified_at']): ?>
-                                        <span class="badge rounded-pill" style="background:#d1fae5;color:#065f46;">✓ Verified</span>
+                                        <span class="badge rounded-pill" style="background:#d1fae5;color:#065f46;"><?= lang('Customer.profile_verified_ok') ?></span>
                                     <?php else: ?>
-                                        <span class="badge rounded-pill" style="background:#fee2e2;color:#991b1b;">Pending</span>
+                                        <span class="badge rounded-pill" style="background:#fee2e2;color:#991b1b;"><?= lang('Customer.profile_verified_pending') ?></span>
                                     <?php endif; ?>
                                 </td>
                             </tr>
                             <tr>
-                                <td style="color:#6b7280;">Member since</td>
+                                <td style="color:#6b7280;"><?= lang('Customer.profile_member_since') ?></td>
                                 <td class="text-end" style="color:#111827;">
                                     <?= date('M Y', strtotime($user['created_at'])) ?>
                                 </td>

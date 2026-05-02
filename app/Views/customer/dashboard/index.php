@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= service('request')->getLocale() ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard — AITS</title>
+    <title><?= lang('Customer.page_dashboard') ?> — AITS</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
@@ -136,44 +136,7 @@
 
 <?php $cartCount = model('App\Models\CartModel')->getCount(session()->get('user_id')); ?>
 
-<div id="sidebarOverlay" onclick="toggleSidebar()"
-     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;"></div>
-
-<!-- Sidebar -->
-<div id="sidebar">
-    <div class="sidebar-brand">
-        <a href="<?= base_url('/') ?>"><span>💻 AITS</span>
-            <small>Alin IT Services</small>
-        </a>
-    </div>
-    <nav class="mt-3">
-        <a href="<?= base_url('dashboard') ?>" class="nav-link active">
-            <i class="bi bi-speedometer2"></i> Dashboard
-        </a>
-        <a href="<?= base_url('my-products') ?>" class="nav-link">
-            <i class="bi bi-grid"></i> Products
-        </a>
-        <a href="<?= base_url('cart') ?>" class="nav-link">
-            <i class="bi bi-basket2"></i> Basket
-            <?php if ($cartCount > 0): ?>
-                <span class="badge bg-danger rounded-pill ms-auto" style="font-size:11px;"><?= $cartCount ?></span>
-            <?php endif; ?>
-        </a>
-        <a href="<?= base_url('invoices') ?>" class="nav-link">
-            <i class="bi bi-receipt"></i> Invoices
-        </a>
-        <a href="<?= base_url('support') ?>" class="nav-link">
-            <i class="bi bi-headset"></i> Support
-        </a>
-        <a href="<?= base_url('profile') ?>" class="nav-link">
-            <i class="bi bi-person"></i> Profile
-        </a>
-        <hr style="border-color:rgba(255,255,255,.15);margin:12px 24px;">
-        <a href="<?= base_url('logout') ?>" class="nav-link text-danger-emphasis">
-            <i class="bi bi-box-arrow-left"></i> Logout
-        </a>
-    </nav>
-</div>
+<?= view('partials/customer_sidebar', ['activeNav' => 'dashboard', 'cartCount' => $cartCount]) ?>
 
 <!-- Main -->
 <div id="main">
@@ -184,7 +147,7 @@
             <button class="btn btn-sm d-md-none" onclick="toggleSidebar()">
                 <i class="bi bi-list fs-5"></i>
             </button>
-            <h1 class="page-title">Dashboard</h1>
+            <h1 class="page-title"><?= lang('Customer.page_dashboard') ?></h1>
         </div>
         <div class="user-info">
             <a href="<?= base_url('cart') ?>" class="position-relative text-decoration-none me-1" title="My Basket">
@@ -213,10 +176,10 @@
         <!-- Welcome -->
         <div class="mb-4">
             <h2 style="font-size:18px;font-weight:700;color:#111827;">
-                Welcome back, <?= esc(session()->get('name') ?? 'Customer') ?>
+                <?= lang('Customer.welcome_back') ?>, <?= esc(session()->get('name') ?? 'Customer') ?>
             </h2>
             <p style="font-size:14px;color:#6b7280;margin:0;">
-                Here's what's happening with your account.
+                <?= lang('Customer.account_summary') ?>
             </p>
         </div>
 
@@ -230,7 +193,7 @@
                         </div>
                     </div>
                     <div class="stat-value"><?= $activeCount ?></div>
-                    <div class="stat-label">Active Services</div>
+                    <div class="stat-label"><?= lang('Customer.active_services') ?></div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-3">
@@ -241,7 +204,7 @@
                         </div>
                     </div>
                     <div class="stat-value">$<?= number_format($monthlyTotal, 2) ?></div>
-                    <div class="stat-label">Monthly Total</div>
+                    <div class="stat-label"><?= lang('Customer.monthly_total') ?></div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-3">
@@ -252,7 +215,7 @@
                         </div>
                     </div>
                     <div class="stat-value"><?= $openTickets ?></div>
-                    <div class="stat-label">Open Tickets</div>
+                    <div class="stat-label"><?= lang('Customer.open_tickets') ?></div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-3">
@@ -263,7 +226,7 @@
                         </div>
                     </div>
                     <div class="stat-value"><?= $nextInvoice ? date('M d', strtotime($nextInvoice)) : '—' ?></div>
-                    <div class="stat-label">Next Invoice Due</div>
+                    <div class="stat-label"><?= lang('Customer.next_invoice_due') ?></div>
                 </div>
             </div>
         </div>
@@ -274,8 +237,8 @@
             <div class="col-12">
                 <div class="stat-card">
                     <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h3 style="font-size:15px;font-weight:600;color:#111827;margin:0;">My Services</h3>
-                        <a href="<?= base_url('cart') ?>" class="btn btn-sm btn-outline-primary">Manage Basket</a>
+                        <h3 style="font-size:15px;font-weight:600;color:#111827;margin:0;"><?= lang('Customer.my_services') ?></h3>
+                        <a href="<?= base_url('cart') ?>" class="btn btn-sm btn-outline-primary"><?= lang('Customer.manage_basket') ?></a>
                     </div>
                     <div class="row g-3">
                         <?php foreach ($activeProducts as $item): ?>
@@ -288,9 +251,9 @@
                                     <div style="font-size:14px;font-weight:600;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><?= esc($item['product_name']) ?></div>
                                     <div style="font-size:12px;color:#6b7280;">$<?= number_format($item['price'], 2) ?> / month</div>
                                     <?php if ($item['status'] === 'active'): ?>
-                                        <span style="font-size:11px;padding:2px 8px;border-radius:20px;background:#dcfce7;color:#16a34a;font-weight:600;">Active</span>
+                                        <span style="font-size:11px;padding:2px 8px;border-radius:20px;background:#dcfce7;color:#16a34a;font-weight:600;"><?= lang('Customer.status_active') ?></span>
                                     <?php else: ?>
-                                        <span style="font-size:11px;padding:2px 8px;border-radius:20px;background:#dbeafe;color:#1d4ed8;font-weight:600;">In Basket</span>
+                                        <span style="font-size:11px;padding:2px 8px;border-radius:20px;background:#dbeafe;color:#1d4ed8;font-weight:600;"><?= lang('Customer.status_in_basket') ?></span>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -307,16 +270,16 @@
             <div class="col-lg-8">
                 <div class="stat-card">
                     <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h3 style="font-size:15px;font-weight:600;color:#111827;margin:0;">Recent Invoices</h3>
-                        <a href="<?= base_url('invoices') ?>" class="btn btn-sm btn-outline-primary">View All</a>
+                        <h3 style="font-size:15px;font-weight:600;color:#111827;margin:0;"><?= lang('Customer.recent_invoices') ?></h3>
+                        <a href="<?= base_url('invoices') ?>" class="btn btn-sm btn-outline-primary"><?= lang('Customer.view_all') ?></a>
                     </div>
                     <table class="table table-sm table-hover mb-0">
                         <thead>
                             <tr style="font-size:12px;color:#6b7280;">
-                                <th>Invoice</th>
-                                <th>Date</th>
-                                <th>Amount</th>
-                                <th>Status</th>
+                                <th><?= lang('Customer.col_invoice') ?></th>
+                                <th><?= lang('Customer.col_date') ?></th>
+                                <th><?= lang('Customer.col_amount') ?></th>
+                                <th><?= lang('Customer.col_status') ?></th>
                             </tr>
                         </thead>
                         <tbody style="font-size:13px;">
@@ -328,9 +291,9 @@
                                     <td>$<?= number_format($inv['total_amount'] ?? $inv['amount'], 2) ?></td>
                                     <td>
                                         <?php if ($inv['status'] === 'paid'): ?>
-                                            <span class="badge bg-success">Paid</span>
+                                            <span class="badge bg-success"><?= lang('Customer.status_paid') ?></span>
                                         <?php elseif ($inv['status'] === 'unpaid'): ?>
-                                            <span class="badge bg-warning text-dark">Unpaid</span>
+                                            <span class="badge bg-warning text-dark"><?= lang('Customer.status_unpaid') ?></span>
                                         <?php else: ?>
                                             <span class="badge bg-secondary"><?= esc(ucfirst($inv['status'])) ?></span>
                                         <?php endif; ?>
@@ -339,7 +302,7 @@
                                 <?php endforeach; ?>
                             <?php else: ?>
                             <tr>
-                                <td colspan="4" class="text-center text-muted py-3">No invoices yet</td>
+                                <td colspan="4" class="text-center text-muted py-3"><?= lang('Customer.no_invoices_yet') ?></td>
                             </tr>
                             <?php endif; ?>
                         </tbody>
@@ -348,16 +311,16 @@
             </div>
             <div class="col-lg-4">
                 <div class="stat-card">
-                    <h3 style="font-size:15px;font-weight:600;color:#111827;margin:0 0 16px;">Quick Actions</h3>
+                    <h3 style="font-size:15px;font-weight:600;color:#111827;margin:0 0 16px;"><?= lang('Customer.quick_actions') ?></h3>
                     <div class="d-grid gap-2">
                         <a href="<?= base_url('support/create') ?>" class="btn btn-primary btn-sm">
-                            <i class="bi bi-plus-circle me-2"></i>Open Support Ticket
+                            <i class="bi bi-plus-circle me-2"></i><?= lang('Customer.open_ticket_btn') ?>
                         </a>
                         <a href="<?= base_url('invoices') ?>" class="btn btn-outline-secondary btn-sm">
-                            <i class="bi bi-download me-2"></i>Download Invoice
+                            <i class="bi bi-download me-2"></i><?= lang('Customer.download_invoice_btn') ?>
                         </a>
                         <a href="<?= base_url('profile') ?>" class="btn btn-outline-secondary btn-sm">
-                            <i class="bi bi-pencil me-2"></i>Edit Profile
+                            <i class="bi bi-pencil me-2"></i><?= lang('Customer.edit_profile_btn') ?>
                         </a>
                     </div>
                 </div>

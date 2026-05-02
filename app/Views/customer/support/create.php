@@ -25,27 +25,7 @@
 
 <?php $cartCount = model('App\Models\CartModel')->getCount(session()->get('user_id')); ?>
 
-<div id="sidebarOverlay" onclick="toggleSidebar()"
-     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;"></div>
-
-<div id="sidebar">
-    <div class="brand"><span>💻 AITS</span><small>Alin IT Services</small></div>
-    <nav class="mt-3">
-        <a href="<?= base_url('dashboard') ?>" class="nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="<?= base_url('/') ?>#products" class="nav-link"><i class="bi bi-grid"></i> Products</a>
-        <a href="<?= base_url('cart') ?>" class="nav-link">
-            <i class="bi bi-basket2"></i> Basket
-            <?php if ($cartCount > 0): ?>
-                <span class="badge bg-danger rounded-pill ms-auto" style="font-size:11px;"><?= $cartCount ?></span>
-            <?php endif; ?>
-        </a>
-        <a href="<?= base_url('invoices') ?>" class="nav-link"><i class="bi bi-receipt"></i> Invoices</a>
-        <a href="<?= base_url('support') ?>" class="nav-link active"><i class="bi bi-headset"></i> Support</a>
-        <a href="<?= base_url('profile') ?>" class="nav-link"><i class="bi bi-person"></i> Profile</a>
-        <hr style="border-color:rgba(255,255,255,.15);margin:12px 24px;">
-        <a href="<?= base_url('logout') ?>" class="nav-link"><i class="bi bi-box-arrow-left"></i> Logout</a>
-    </nav>
-</div>
+<?= view('partials/customer_sidebar', ['activeNav' => 'support', 'cartCount' => $cartCount]) ?>
 
 <div id="main">
     <div id="topbar">
@@ -54,7 +34,7 @@
             <a href="<?= base_url('support') ?>" class="btn btn-sm btn-outline-secondary">
                 <i class="bi bi-arrow-left"></i>
             </a>
-            <h1 style="font-size:16px;font-weight:600;color:#111827;margin:0;">New Support Ticket</h1>
+            <h1 style="font-size:16px;font-weight:600;color:#111827;margin:0;"><?= lang('Customer.ticket_new_title') ?></h1>
         </div>
         <div class="d-flex align-items-center gap-3">
             <a href="<?= base_url('cart') ?>" class="position-relative text-decoration-none" title="My Basket">
@@ -83,20 +63,20 @@
 
                 <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-body p-4">
-                        <h5 class="fw-700 mb-4" style="color:#111827;">Ticket Details</h5>
+                        <h5 class="fw-700 mb-4" style="color:#111827;"><?= lang('Customer.ticket_details') ?></h5>
 
                         <form action="<?= base_url('support/store') ?>" method="POST" enctype="multipart/form-data">
                             <?= csrf_field() ?>
 
                             <div class="mb-3">
-                                <label class="form-label fw-semibold" style="font-size:14px;">Subject</label>
+                                <label class="form-label fw-semibold" style="font-size:14px;"><?= lang('Customer.ticket_subject_label') ?></label>
                                 <input type="text" name="subject" class="form-control"
-                                    placeholder="Brief description of your issue"
+                                    placeholder="<?= lang('Customer.ticket_subject_ph') ?>"
                                     value="<?= old('subject') ?>" required>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label fw-semibold" style="font-size:14px;">Priority</label>
+                                <label class="form-label fw-semibold" style="font-size:14px;"><?= lang('Customer.ticket_priority_label') ?></label>
                                 <select name="priority" class="form-select" required>
                                     <option value="low"    <?= old('priority') === 'low'    ? 'selected' : '' ?>>🟢 Low</option>
                                     <option value="medium" <?= old('priority') === 'medium' ? 'selected' : '' ?> selected>🔵 Medium</option>
@@ -106,23 +86,23 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label fw-semibold" style="font-size:14px;">Description</label>
+                                <label class="form-label fw-semibold" style="font-size:14px;"><?= lang('Customer.ticket_desc_label') ?></label>
                                 <textarea name="description" class="form-control" rows="6"
-                                    placeholder="Please describe your issue in detail..."
+                                    placeholder="<?= lang('Customer.ticket_desc_ph') ?>"
                                     required><?= old('description') ?></textarea>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label fw-semibold" style="font-size:14px;">Attachment <span class="text-muted fw-normal">(optional)</span></label>
+                                <label class="form-label fw-semibold" style="font-size:14px;"><?= lang('Customer.ticket_attachment_label') ?> <span class="text-muted fw-normal"><?= lang('Customer.ticket_attachment_opt') ?></span></label>
                                 <input type="file" name="image" class="form-control" accept="image/*,.pdf">
-                                <div class="form-text">Max 2MB. Accepted: images, PDF.</div>
+                                <div class="form-text"><?= lang('Customer.ticket_attachment_hint') ?></div>
                             </div>
 
                             <div class="d-flex gap-2">
                                 <button type="submit" class="btn btn-primary px-4">
-                                    <i class="bi bi-send me-1"></i> Submit Ticket
+                                    <i class="bi bi-send me-1"></i> <?= lang('Customer.ticket_submit') ?>
                                 </button>
-                                <a href="<?= base_url('support') ?>" class="btn btn-outline-secondary px-4">Cancel</a>
+                                <a href="<?= base_url('support') ?>" class="btn btn-outline-secondary px-4"><?= lang('Customer.btn_cancel') ?></a>
                             </div>
                         </form>
                     </div>

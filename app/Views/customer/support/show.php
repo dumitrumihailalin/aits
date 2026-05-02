@@ -57,30 +57,7 @@
 
 <?php $cartCount = model('App\Models\CartModel')->getCount(session()->get('user_id')); ?>
 
-<div id="sidebarOverlay" onclick="toggleSidebar()"
-     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;"></div>
-
-<div id="sidebar">
-    <div class="sidebar-brand">
-        <span>💻 AITS</span>
-        <small>Alin IT Services</small>
-    </div>
-    <nav class="mt-3">
-        <a href="<?= base_url('dashboard') ?>" class="nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="<?= base_url('/') ?>#products" class="nav-link"><i class="bi bi-grid"></i> Products</a>
-        <a href="<?= base_url('cart') ?>" class="nav-link">
-            <i class="bi bi-basket2"></i> Basket
-            <?php if ($cartCount > 0): ?>
-                <span class="badge bg-danger rounded-pill ms-auto" style="font-size:11px;"><?= $cartCount ?></span>
-            <?php endif; ?>
-        </a>
-        <a href="<?= base_url('invoices') ?>"  class="nav-link"><i class="bi bi-receipt"></i> Invoices</a>
-        <a href="<?= base_url('support') ?>"   class="nav-link active"><i class="bi bi-headset"></i> Support</a>
-        <a href="<?= base_url('profile') ?>"   class="nav-link"><i class="bi bi-person"></i> Profile</a>
-        <hr style="border-color:rgba(255,255,255,.15);margin:12px 24px;">
-        <a href="<?= base_url('logout') ?>" class="nav-link"><i class="bi bi-box-arrow-left"></i> Logout</a>
-    </nav>
-</div>
+<?= view('partials/customer_sidebar', ['activeNav' => 'support', 'cartCount' => $cartCount]) ?>
 
 <div id="main">
     <div id="topbar">
@@ -109,7 +86,7 @@
 
         <div class="mb-4">
             <a href="<?= base_url('support') ?>" class="text-decoration-none" style="font-size:13px;color:#6b7280;">
-                <i class="bi bi-arrow-left me-1"></i> Back to Tickets
+                <i class="bi bi-arrow-left me-1"></i> <?= lang('Customer.ticket_back') ?>
             </a>
         </div>
 
@@ -159,7 +136,7 @@
         <?php if (! empty($replies)): ?>
         <div class="mb-4">
             <p style="font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px;">
-                <?= count($replies) ?> <?= count($replies) === 1 ? 'Reply' : 'Replies' ?>
+                <?= count($replies) ?> <?= count($replies) === 1 ? lang('Customer.ticket_replies_single') : lang('Customer.ticket_replies_plural') ?>
             </p>
 
             <?php foreach ($replies as $reply): ?>
@@ -170,7 +147,7 @@
                 </div>
                 <div style="flex:1;max-width:85%;">
                     <p style="font-size:11px;color:#9ca3af;margin-bottom:6px;<?= $isAdmin ? '' : 'text-align:right;' ?>">
-                        <?= $isAdmin ? 'Support Team' : esc(session()->get('name')) ?>
+                        <?= $isAdmin ? lang('Customer.ticket_support_team') : esc(session()->get('name')) ?>
                         · <?= date('M d, Y H:i', strtotime($reply['created_at'])) ?>
                     </p>
                     <div class="message-bubble <?= $isAdmin ? 'admin' : '' ?>"><?= esc($reply['message']) ?></div>
@@ -183,25 +160,25 @@
         <!-- Reply form -->
         <?php if (($ticket['status'] ?? 'open') !== 'closed'): ?>
         <div class="ticket-card">
-            <h3 style="font-size:15px;font-weight:600;color:#111827;margin-bottom:16px;">Add a Reply</h3>
+            <h3 style="font-size:15px;font-weight:600;color:#111827;margin-bottom:16px;"><?= lang('Customer.ticket_add_reply') ?></h3>
             <form action="<?= base_url('support/reply/' . $ticket['id']) ?>" method="POST" enctype="multipart/form-data">
                 <?= csrf_field() ?>
                 <div class="mb-3">
                     <textarea name="message" class="form-control" rows="4"
-                        placeholder="Type your reply..." required></textarea>
+                        placeholder="<?= lang('Customer.ticket_reply_ph') ?>" required></textarea>
                 </div>
                 <div class="mb-3">
                     <input type="file" name="attachment" class="form-control" accept="image/*,.pdf">
                 </div>
                 <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-send me-1"></i> Send Reply
+                    <i class="bi bi-send me-1"></i> <?= lang('Customer.ticket_send_reply') ?>
                 </button>
             </form>
         </div>
         <?php else: ?>
         <div class="ticket-card text-center" style="color:#6b7280;font-size:14px;">
             <i class="bi bi-lock" style="font-size:24px;display:block;margin-bottom:8px;"></i>
-            This ticket is closed. <a href="<?= base_url('support/create') ?>">Open a new ticket</a> if you need further assistance.
+            <?= lang('Customer.ticket_closed_notice') ?> <a href="<?= base_url('support/create') ?>"><?= lang('Customer.ticket_open_new') ?></a> <?= lang('Customer.ticket_closed_further') ?>
         </div>
         <?php endif; ?>
 

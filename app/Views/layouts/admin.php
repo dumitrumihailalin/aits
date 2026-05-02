@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="<?= service('request')->getLocale() ?>" data-bs-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,53 +27,53 @@
       <div class="brand-icon"><i class="bi bi-cpu-fill"></i></div>
       <div class="brand-text">
         <strong>AITS</strong>
-        <small>Admin Panel</small>
+        <small><?= lang('Admin.panel_name') ?></small>
       </div>
     </div>
 
     <nav class="sidebar-nav">
 
-      <div class="nav-section-label">Main</div>
+      <div class="nav-section-label"><?= lang('Admin.section_main') ?></div>
       <a href="<?= base_url('admin/dashboard') ?>" class="nav-item <?= ($activeNav ?? '') === 'dashboard' ? 'active' : '' ?>">
         <i class="bi bi-grid-fill"></i>
-        <span class="nav-label">Dashboard</span>
+        <span class="nav-label"><?= lang('Admin.nav_dashboard') ?></span>
       </a>
 
-      <div class="nav-section-label">Catalogue</div>
+      <div class="nav-section-label"><?= lang('Admin.section_catalogue') ?></div>
       <a href="<?= base_url('admin/products') ?>" class="nav-item <?= ($activeNav ?? '') === 'products' ? 'active' : '' ?>">
         <i class="bi bi-box-seam-fill"></i>
-        <span class="nav-label">Products</span>
+        <span class="nav-label"><?= lang('Admin.nav_products') ?></span>
       </a>
       <a href="<?= base_url('admin/features') ?>" class="nav-item <?= ($activeNav ?? '') === 'features' ? 'active' : '' ?>">
         <i class="bi bi-toggles"></i>
-        <span class="nav-label">Features</span>
+        <span class="nav-label"><?= lang('Admin.nav_features') ?></span>
       </a>
 
-      <div class="nav-section-label">Customers</div>
+      <div class="nav-section-label"><?= lang('Admin.section_customers') ?></div>
       <a href="<?= base_url('admin/customers') ?>" class="nav-item <?= ($activeNav ?? '') === 'customers' ? 'active' : '' ?>">
         <i class="bi bi-people-fill"></i>
-        <span class="nav-label">Customers</span>
+        <span class="nav-label"><?= lang('Admin.nav_customers') ?></span>
       </a>
       <a href="<?= base_url('admin/invoices') ?>" class="nav-item <?= ($activeNav ?? '') === 'invoices' ? 'active' : '' ?>">
         <i class="bi bi-receipt-cutoff"></i>
-        <span class="nav-label">Invoices</span>
+        <span class="nav-label"><?= lang('Admin.nav_invoices') ?></span>
       </a>
       <a href="<?= base_url('admin/support') ?>" class="nav-item <?= ($activeNav ?? '') === 'support' ? 'active' : '' ?>">
         <i class="bi bi-headset"></i>
-        <span class="nav-label">Support Tickets</span>
+        <span class="nav-label"><?= lang('Admin.nav_support') ?></span>
         <?php if (!empty($openTickets)): ?>
           <span class="nav-badge"><?= $openTickets ?></span>
         <?php endif; ?>
       </a>
 
-      <div class="nav-section-label">System</div>
+      <div class="nav-section-label"><?= lang('Admin.section_system') ?></div>
       <a href="<?= base_url('admin/profile') ?>" class="nav-item <?= ($activeNav ?? '') === 'profile' ? 'active' : '' ?>">
         <i class="bi bi-person-fill"></i>
-        <span class="nav-label">Profile</span>
+        <span class="nav-label"><?= lang('Admin.nav_profile') ?></span>
       </a>
       <a href="<?= base_url('admin/settings') ?>" class="nav-item <?= ($activeNav ?? '') === 'settings' ? 'active' : '' ?>">
         <i class="bi bi-gear-fill"></i>
-        <span class="nav-label">Settings</span>
+        <span class="nav-label"><?= lang('Admin.nav_settings') ?></span>
       </a>
 
     </nav>
@@ -85,7 +85,7 @@
         </div>
         <div class="admin-info">
           <div class="admin-name"><?= esc(session()->get('admin_name') ?? 'Admin') ?></div>
-          <div class="admin-role">Administrator</div>
+          <div class="admin-role"><?= lang('Admin.panel_role') ?></div>
         </div>
       </a>
     </div>
@@ -115,7 +115,7 @@
       <div class="topbar-right">
         <div class="topbar-search d-none d-sm-flex">
           <i class="bi bi-search"></i>
-          <input type="text" placeholder="Search..." />
+          <input type="text" placeholder="<?= lang('Admin.search_placeholder') ?>" />
         </div>
 
         <button class="topbar-btn" title="Notifications">
